@@ -1,0 +1,36 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Hello",
+            "request": "launch",
+            "mainClass": "Hello",
+            "projectName": "CS335-Final-Project_80ea447"
+        },
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "finalproject.src.main.java.com.finalproject.App",
+            "projectName": "CS335-Final-Project_80ea447"
+        },
+        {
+            "type": "java",
+            "name": "App(1)",
+            "request": "launch",
+            "mainClass": "com.finalproject.App",
+            "vmArgs": "--module-path /Users/ajcronin/Library/CloudStorage/OneDrive-Personal/Coding/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml"
+
+        }
+    ]
+}
