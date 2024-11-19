@@ -33,7 +33,7 @@ public class Board {
 			this.moveLeft();
 			break;
 		case RIGHT:
-			this.moveLeft();
+			this.moveRight();
 			break;
 		case UP:
 			this.moveUp();
@@ -56,7 +56,7 @@ public class Board {
 				// space with a tile
 				// find the tile to the left that has something
 				int currentIndex = jj-1;
-				Tile left = this.board.get(ii).get(currentIndex)
+				Tile left = this.board.get(ii).get(currentIndex);
 				while (left == null && currentIndex > 0){	
 					currentIndex--;
 					if (currentIndex <= 0){
@@ -66,9 +66,9 @@ public class Board {
 
 				if (left != null){
 					// check if they can combine and left was not combined this round
-					if (left.CHECKIFTHETILESCANCOMBINE(this.board.get(ii).get(jj)) && !combined){
+					if (left.equals(this.board.get(ii).get(jj)) && !combined){
 						// combine the two tiles
-						left.SOMEHOWCOMBINETHETILES(this.board.get(ii).get(jj));
+						left.combine(this.board.get(ii).get(jj));
 						combined = true;
 					// dont merge tiles, just put the current next to the next tile to the left
 					} else {
@@ -91,7 +91,7 @@ public class Board {
 		for (int ii = 0; ii < this.boardY; ii++){
 			// whether or no the tile before this was merged(to prevent excess merging)
 			boolean combined = false;
-			for (int jj = this.boardX - 1; jj > 0; jj--){
+			for (int jj = this.boardX - 2; jj > 0; jj--){
 				// empty space
 				if (this.board.get(ii).get(jj) == null){
 					continue;
@@ -99,7 +99,7 @@ public class Board {
 				// space with a tile
 				// find the tile to the right that has something
 				int currentIndex = jj+1;
-				Tile right = this.board.get(ii).get(currentIndex)
+				Tile right = this.board.get(ii).get(currentIndex);
 				while (right == null && currentIndex < boardX - 1){	
 					currentIndex++;
 					if (currentIndex <= boardX - 1){
@@ -109,9 +109,9 @@ public class Board {
 
 				if (right != null){
 					// check if they can combine and right was not combined this round
-					if (right.CHECKIFTHETILESCANCOMBINE(this.board.get(ii).get(jj)) && !combined){
+					if (right.equals(this.board.get(ii).get(jj)) && !combined){
 						// combine the two tiles
-						right.SOMEHOWCOMBINETHETILES(this.board.get(ii).get(jj));
+						right.combine(this.board.get(ii).get(jj));
 						combined = true;
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
@@ -131,11 +131,89 @@ public class Board {
 	}
 	
 	private void moveUp() {
-		// TODO
+		for (int ii = 0; ii < this.boardX; ii++){
+			// whether or no the tile before this was merged(to prevent excess merging)
+			boolean combined = false;
+			for (int jj = 1; jj < this.boardY; jj++){
+				// empty space
+				if (this.board.get(jj).get(ii) == null){
+					continue;
+				}
+				// space with a tile
+				// find the tile to the right that has something
+				int currentIndex = jj-1;
+				Tile up = this.board.get(currentIndex).get(ii);
+				while (up == null && currentIndex > 0){	
+					currentIndex--;
+					if (currentIndex >= 0){
+						up = this.board.get(currentIndex).get(ii);
+					}
+				}
+
+				if (up != null){
+					// check if they can combine and right was not combined this round
+					if (up.equals(this.board.get(jj).get(ii)) && !combined){
+						// combine the two tiles
+						up.combine(this.board.get(jj).get(ii));
+						combined = true;
+					// dont merge tiles, just put the current next to the next tile to the right
+					} else {
+						this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
+						this.board.get(jj).set(ii, null);
+						combined = false;
+					}
+				} else {
+					// dont merge tiles, just put the current next to the next tile to the right or the wall
+					this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
+					this.board.get(jj).set(ii, null);
+					combined = false;
+				}
+				
+			}
+		}
 	}
 	
 	private void moveDown() {
-		// TODO
+		for (int ii = 0; ii < this.boardX; ii++){
+			// whether or no the tile before this was merged(to prevent excess merging)
+			boolean combined = false;
+			for (int jj = this.boardY - 2; jj >= 0; jj--){
+				// empty space
+				if (this.board.get(jj).get(ii) == null){
+					continue;
+				}
+				// space with a tile
+				// find the tile to the right that has something
+				int currentIndex = jj+1;
+				Tile down = this.board.get(currentIndex).get(ii);
+				while (down == null && currentIndex < this.boardY-1){	
+					currentIndex++;
+					if (currentIndex < this.boardY){
+						down = this.board.get(currentIndex).get(ii);
+					}
+				}
+
+				if (down != null){
+					// check if they can combine and right was not combined this round
+					if (down.equals(this.board.get(jj).get(ii)) && !combined){
+						// combine the two tiles
+						down.combine(this.board.get(jj).get(ii));
+						combined = true;
+					// dont merge tiles, just put the current next to the next tile to the right
+					} else {
+						this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
+						this.board.get(jj).set(ii, null);
+						combined = false;
+					}
+				} else {
+					// dont merge tiles, just put the current next to the next tile to the right or the wall
+					this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
+					this.board.get(jj).set(ii, null);
+					combined = false;
+				}
+				
+			}
+		}
 	}
 
 	public String toString(){
