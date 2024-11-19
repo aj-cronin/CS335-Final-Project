@@ -216,6 +216,24 @@ public class Board {
 		}
 	}
 
+	public void addTile(){
+		int x = (int) Math.floor(Math.random() * (this.boardX));
+		int y = (int) Math.floor(Math.random() * (this.boardY));
+
+		while(this.board.get(y).get(x) != null){
+			x = (int) Math.floor(Math.random() * (this.boardX));
+			y = (int) Math.floor(Math.random() * (this.boardY));
+		}
+
+		double chanceOf4 = Math.random();
+		if (chanceOf4 >= 0.9){
+			this.board.get(y).set(x, new Tile(4));
+		} else {
+			this.board.get(y).set(x, new Tile(2));
+		}
+
+	}
+
 	public String toString(){
 		String out = "┌" + "----".repeat(this.boardX - 1) + "---┐";
 		for (int ii = 0; ii < this.boardY; ii++){
