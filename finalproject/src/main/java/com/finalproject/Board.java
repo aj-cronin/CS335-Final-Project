@@ -257,7 +257,7 @@ public class Board {
 	}
 
 	public boolean isFull(){
-		return this.tileNum() == 16;
+		return this.tileNum == 16;
 	}
 
 	public String toString(){
