@@ -133,7 +133,7 @@ public class Board {
 	private void moveUp() {
 		for (int ii = 0; ii < this.boardX; ii++){
 			// whether or no the tile before this was merged(to prevent excess merging)
-			boolean combined = false; // POSSIBLE BUG IF MULTIPLE MERGES EXIST ON ONE COLUMN (same for the others)
+			boolean combined = false;
 			for (int jj = 1; jj < this.boardY; jj++){
 				// empty space
 				if (this.board.get(jj).get(ii) == null){
@@ -176,7 +176,7 @@ public class Board {
 	private void moveDown() {
 		for (int ii = 0; ii < this.boardX; ii++){
 			// whether or no the tile before this was merged(to prevent excess merging)
-			boolean combined = false; // POSSIBLE BUG IF MULTIPLE MERGES EXIST ON ONE COLUMN (same for the others)
+			boolean combined = false;
 			for (int jj = this.boardY - 2; jj >= 0; jj--){
 				// empty space
 				if (this.board.get(jj).get(ii) == null){
