@@ -14,19 +14,12 @@ public class Board {
 		this.boardX = 4;
 		this.boardY = 4;
 		// inicialize board to a certain size
-		this.board = new ArrayList<ArrayList<Tile>>(this.boardY);
-		for (int ii = 0; ii < this.boardY; ii++){
-			this.board.add(new ArrayList<Tile>(this.boardX));
-		}
+		this.board = new ArrayList<ArrayList<Tile>>();
 	}
 	
 	public ArrayList<ArrayList<Tile>> getBoard() {
 		// make a copy
-		ArrayList<ArrayList<Tile>> temp = new ArrayList<ArrayList<Tile>>(this.boardY);
-		for (int ii = 0; ii < boardY; ii++){
-			temp.set(ii, new ArrayList<Tile>(this.board.get(ii))); 
-		}
-		return temp;
+		return new ArrayList<ArrayList<Tile>>(this.board);
 	}
 	
 	public void move(Enums.DIRECTION direction) {
