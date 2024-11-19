@@ -26,7 +26,7 @@ public class Board {
 		for (int ii = 0; ii < boardY; ii++){
 			temp.set(ii, new ArrayList<Tile>(this.board.get(ii))); 
 		}
-		return this.board;
+		return temp;
 	}
 	
 	public void move(Enums.DIRECTION direction) {
