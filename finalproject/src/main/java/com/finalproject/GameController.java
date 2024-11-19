@@ -26,7 +26,7 @@ public class GameController {
     }
 
     public boolean isOver(){
-        return this.board.isFull() || (this.getScore() == 2048);
+        return this.board.isFull() || (this.board.getHighest() == 2048);
     }
 
     
