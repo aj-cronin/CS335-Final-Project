@@ -1,12 +1,12 @@
-package finalproject;
+package com.finalproject;
 
 import java.util.ArrayList;
 
 public class Board {
 	
 	private ArrayList<ArrayList<Tile>> board;
-	private boardX;
-	private boardY;
+	private int boardX;
+	private int boardY;
 	
 	public Board() {
 		this.boardX = 4;
@@ -20,14 +20,14 @@ public class Board {
 	
 	public ArrayList<ArrayList<Tile>> getBoard() {
 		// make a copy
-		ArrayList<Arraylist<Tile>> temp = new ArrayList<Arraylist<Tile>>(this.boardY);
+		ArrayList<ArrayList<Tile>> temp = new ArrayList<ArrayList<Tile>>(this.boardY);
 		for (int ii = 0; ii < boardY; ii++){
-			temp.get(ii) = new ArrayList<Tile>(this.board.get(ii));
+			temp.set(ii, new ArrayList<Tile>(this.board.get(ii))); 
 		}
 		return this.board;
 	}
 	
-	public void move(Direction direction) {
+	public void move(Enums.DIRECTION direction) {
 		switch (direction) {
 		case LEFT:
 			this.moveLeft();
@@ -66,9 +66,9 @@ public class Board {
 
 				if (left != null){
 					// check if they can combine and left was not combined this round
-					if (left.equals(this.board.get(ii).get(jj)) && !combined){
+					if (left.CHECKIFTHETILESCANCOMBINE(this.board.get(ii).get(jj)) && !combined){
 						// combine the two tiles
-						left.combine(this.board.get(ii).get(jj));
+						left.SOMEHOWCOMBINETHETILES(this.board.get(ii).get(jj));
 						combined = true;
 					// dont merge tiles, just put the current next to the next tile to the left
 					} else {
@@ -91,7 +91,7 @@ public class Board {
 		for (int ii = 0; ii < this.boardY; ii++){
 			// whether or no the tile before this was merged(to prevent excess merging)
 			boolean combined = false;
-			for (int jj = this.boardX - 2; jj > 0; jj--){
+			for (int jj = this.boardX - 1; jj > 0; jj--){
 				// empty space
 				if (this.board.get(ii).get(jj) == null){
 					continue;
@@ -109,9 +109,9 @@ public class Board {
 
 				if (right != null){
 					// check if they can combine and right was not combined this round
-					if (right.equals(this.board.get(ii).get(jj)) && !combined){
+					if (right.CHECKIFTHETILESCANCOMBINE(this.board.get(ii).get(jj)) && !combined){
 						// combine the two tiles
-						right.combine(this.board.get(ii).get(jj));
+						right.SOMEHOWCOMBINETHETILES(this.board.get(ii).get(jj));
 						combined = true;
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
@@ -131,89 +131,11 @@ public class Board {
 	}
 	
 	private void moveUp() {
-		for (int ii = 0; ii < this.boardX; ii++){
-			// whether or no the tile before this was merged(to prevent excess merging)
-			boolean combined = false;
-			for (int jj = 1; jj < this.boardY; jj++){
-				// empty space
-				if (this.board.get(jj).get(ii) == null){
-					continue;
-				}
-				// space with a tile
-				// find the tile to the right that has something
-				int currentIndex = jj-1;
-				Tile up = this.board.get(currentIndex).get(ii)
-				while (up == null && currentIndex > 0){	
-					currentIndex--;
-					if (currentIndex >= 0){
-						up = this.board.get(currentIndex).get(ii);
-					}
-				}
-
-				if (up != null){
-					// check if they can combine and right was not combined this round
-					if (up.equals(this.board.get(jj).get(ii)) && !combined){
-						// combine the two tiles
-						up.combine(this.board.get(jj).get(ii));
-						combined = true;
-					// dont merge tiles, just put the current next to the next tile to the right
-					} else {
-						this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
-						this.board.get(jj).set(ii, null);
-						combined = false;
-					}
-				} else {
-					// dont merge tiles, just put the current next to the next tile to the right or the wall
-					this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
-					this.board.get(jj).set(ii, null);
-					combined = false;
-				}
-				
-			}
-		}
+		// TODO
 	}
 	
 	private void moveDown() {
-		for (int ii = 0; ii < this.boardX; ii++){
-			// whether or no the tile before this was merged(to prevent excess merging)
-			boolean combined = false;
-			for (int jj = this.boardY - 2; jj >= 0; jj--){
-				// empty space
-				if (this.board.get(jj).get(ii) == null){
-					continue;
-				}
-				// space with a tile
-				// find the tile to the right that has something
-				int currentIndex = jj+1;
-				Tile down = this.board.get(currentIndex).get(ii)
-				while (down == null && currentIndex < this.boardY-1){	
-					currentIndex++;
-					if (currentIndex < this.boardY){
-						down = this.board.get(currentIndex).get(ii);
-					}
-				}
-
-				if (down != null){
-					// check if they can combine and right was not combined this round
-					if (down.equals(this.board.get(jj).get(ii)) && !combined){
-						// combine the two tiles
-						down.combine(this.board.get(jj).get(ii));
-						combined = true;
-					// dont merge tiles, just put the current next to the next tile to the right
-					} else {
-						this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
-						this.board.get(jj).set(ii, null);
-						combined = false;
-					}
-				} else {
-					// dont merge tiles, just put the current next to the next tile to the right or the wall
-					this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
-					this.board.get(jj).set(ii, null);
-					combined = false;
-				}
-				
-			}
-		}
+		// TODO
 	}
 
 	public String toString(){
