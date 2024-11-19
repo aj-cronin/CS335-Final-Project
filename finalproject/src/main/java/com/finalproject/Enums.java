@@ -1,3 +1,5 @@
+package com.finalproject;
+
 public class Enums{
   
     public enum COLOR{

@@ -1,3 +1,4 @@
+package com.finalproject;
 /*
     @authors: ...
     Repreents a Tile piece that contains an integer value with an associated color

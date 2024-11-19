@@ -1,12 +1,12 @@
-package finalproject;
+package com.finalproject;
 
 import java.util.ArrayList;
 
 public class Board {
 	
 	private ArrayList<ArrayList<Tile>> board;
-	private boardX;
-	private boardY;
+	private int boardX;
+	private int boardY;
 	
 	public Board() {
 		this.boardX = 4;
@@ -20,14 +20,14 @@ public class Board {
 	
 	public ArrayList<ArrayList<Tile>> getBoard() {
 		// make a copy
-		ArrayList<Arraylist<Tile>> temp = new ArrayList<Arraylist<Tile>>(this.boardY);
+		ArrayList<ArrayList<Tile>> temp = new ArrayList<ArrayList<Tile>>(this.boardY);
 		for (int ii = 0; ii < boardY; ii++){
-			temp.get(ii) = new ArrayList<Tile>(this.board.get(ii));
+			temp.set(ii, new ArrayList<Tile>(this.board.get(ii))); 
 		}
 		return this.board;
 	}
 	
-	public void move(Direction direction) {
+	public void move(Enums.DIRECTION direction) {
 		switch (direction) {
 		case LEFT:
 			this.moveLeft();
