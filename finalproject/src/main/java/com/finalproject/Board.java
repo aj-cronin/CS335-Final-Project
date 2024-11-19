@@ -13,8 +13,15 @@ public class Board {
 		this.score = 0;
 		this.boardX = 4;
 		this.boardY = 4;
-		// inicialize board to a certain size
+		// "inicialize" (as spelled by Nathan) board to a certain size
 		this.board = new ArrayList<ArrayList<Tile>>();
+		for(int ii = 0; ii < 4; ii++) {
+			ArrayList<Tile> row = new ArrayList<Tile>();
+			for(int jj = 0; jj < 4; jj++) {
+				row.add(null);
+			}
+			board.add(row);
+		}
 	}
 	
 	public ArrayList<ArrayList<Tile>> getBoard() {
