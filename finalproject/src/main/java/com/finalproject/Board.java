@@ -9,12 +9,14 @@ public class Board {
 	private int boardY;
 	private int score;
 	private int tileNum;
+	private int highest;
 	
 	public Board() {
 		this.tileNum = 0;
 		this.score = 0;
 		this.boardX = 4;
 		this.boardY = 4;
+		this.highest = 2;
 		// "inicialize" (as spelled by Nathan) board to a certain size
 		this.board = new ArrayList<ArrayList<Tile>>();
 		for(int ii = 0; ii < 4; ii++) {
@@ -76,6 +78,9 @@ public class Board {
 						score += left.getValue();
 						combined = true;
 						this.tileNum--;
+						if (this.highest < left.getValue()){
+							this.highest = left.getValue();
+						}
 					// dont merge tiles, just put the current next to the next tile to the left
 					} else {
 						this.board.get(ii).set(currentIndex, this.board.get(ii).get(jj));
@@ -122,6 +127,10 @@ public class Board {
 						score += right.getValue();
 						combined = true;
 						this.tileNum--;
+						if (this.highest < right.getValue()){
+							this.highest = right.getValue();
+						}
+					// dont merge tile
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
 						this.board.get(ii).set(currentIndex, this.board.get(ii).get(jj));
@@ -168,6 +177,10 @@ public class Board {
 						score += up.getValue();
 						combined = true;
 						this.tileNum--;
+						if (this.highest < up.getValue()){
+							this.highest = up.getValue();
+						}
+					// dont merge tile
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
 						this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
@@ -214,6 +227,10 @@ public class Board {
 						score += down.getValue();
 						combined = true;
 						this.tileNum--;
+						if (this.highest < down.getValue()){
+							this.highest = down.getValue();
+						}
+					// dont merge tile
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
 						this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
@@ -244,6 +261,9 @@ public class Board {
 		double chanceOf4 = Math.random();
 		if (chanceOf4 >= 0.9){
 			this.board.get(y).set(x, new Tile(4));
+			if (this.highest == 2){
+				this.highest = 4);
+			}
 		} else {
 			this.board.get(y).set(x, new Tile(2));
 		}
@@ -254,6 +274,10 @@ public class Board {
 
 	public int getScore(){
 		return this.score;
+	}
+
+	public int getHighest(){
+		return this.highest;
 	}
 
 	public boolean isFull(){
