@@ -7,8 +7,10 @@ public class Board {
 	private ArrayList<ArrayList<Tile>> board;
 	private int boardX;
 	private int boardY;
+	private int score;
 	
 	public Board() {
+		this.score = 0;
 		this.boardX = 4;
 		this.boardY = 4;
 		// inicialize board to a certain size
@@ -69,6 +71,7 @@ public class Board {
 					if (left.equals(this.board.get(ii).get(jj)) && !combined){
 						// combine the two tiles
 						left.combine(this.board.get(ii).get(jj));
+						score += left.getValue();
 						combined = true;
 					// dont merge tiles, just put the current next to the next tile to the left
 					} else {
@@ -112,6 +115,7 @@ public class Board {
 					if (right.equals(this.board.get(ii).get(jj)) && !combined){
 						// combine the two tiles
 						right.combine(this.board.get(ii).get(jj));
+						score += right.getValue();
 						combined = true;
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
@@ -155,6 +159,7 @@ public class Board {
 					if (up.equals(this.board.get(jj).get(ii)) && !combined){
 						// combine the two tiles
 						up.combine(this.board.get(jj).get(ii));
+						score += up.getValue();
 						combined = true;
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
@@ -198,6 +203,7 @@ public class Board {
 					if (down.equals(this.board.get(jj).get(ii)) && !combined){
 						// combine the two tiles
 						down.combine(this.board.get(jj).get(ii));
+						score += down.getValue();
 						combined = true;
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
@@ -232,6 +238,10 @@ public class Board {
 			this.board.get(y).set(x, new Tile(2));
 		}
 
+	}
+
+	public int getScore(){
+		return this.score;
 	}
 
 	public String toString(){
