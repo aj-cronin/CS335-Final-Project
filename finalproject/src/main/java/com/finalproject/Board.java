@@ -8,8 +8,10 @@ public class Board {
 	private int boardX;
 	private int boardY;
 	private int score;
+	private int tileNum;
 	
 	public Board() {
+		this.tileNum = 0;
 		this.score = 0;
 		this.boardX = 4;
 		this.boardY = 4;
@@ -73,6 +75,7 @@ public class Board {
 						left.combine(this.board.get(ii).get(jj));
 						score += left.getValue();
 						combined = true;
+						this.tileNum--;
 					// dont merge tiles, just put the current next to the next tile to the left
 					} else {
 						this.board.get(ii).set(currentIndex, this.board.get(ii).get(jj));
@@ -88,6 +91,7 @@ public class Board {
 				
 			}
 		}
+		this.addTile();
 	}
 	
 	private void moveRight() {
@@ -117,6 +121,7 @@ public class Board {
 						right.combine(this.board.get(ii).get(jj));
 						score += right.getValue();
 						combined = true;
+						this.tileNum--;
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
 						this.board.get(ii).set(currentIndex, this.board.get(ii).get(jj));
@@ -132,6 +137,7 @@ public class Board {
 				
 			}
 		}
+		this.addTile();
 	}
 	
 	private void moveUp() {
@@ -161,6 +167,7 @@ public class Board {
 						up.combine(this.board.get(jj).get(ii));
 						score += up.getValue();
 						combined = true;
+						this.tileNum--;
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
 						this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
@@ -176,6 +183,7 @@ public class Board {
 				
 			}
 		}
+		this.addTile();
 	}
 	
 	private void moveDown() {
@@ -205,6 +213,7 @@ public class Board {
 						down.combine(this.board.get(jj).get(ii));
 						score += down.getValue();
 						combined = true;
+						this.tileNum--;
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
 						this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
@@ -220,6 +229,7 @@ public class Board {
 				
 			}
 		}
+		this.addTile();
 	}
 
 	public void addTile(){
@@ -238,10 +248,16 @@ public class Board {
 			this.board.get(y).set(x, new Tile(2));
 		}
 
+		this.tileNum++;
+
 	}
 
 	public int getScore(){
 		return this.score;
+	}
+
+	public boolean isFull(){
+		return this.tileNum() == 16;
 	}
 
 	public String toString(){
