@@ -11,12 +11,12 @@ public class Leaderboard {
     ArrayList<HashMap<String,Integer>> players;
     int size;
 
-    public Leaderboard() {
+    public Leaderboard(String filename) {
         // Initialize our collection of players.
         // Array of HashMaps so that we can have an ordered collection with multiple values.
         players = new ArrayList<HashMap<String,Integer>>();
         try {
-            File lbFile = new File("leaderboard.csv");
+            File lbFile = new File(filename);
             Scanner lbScanner = new Scanner(lbFile);
             
             // We keep track of how many players have been added because we want the board to only hold the top 10 scores.
@@ -25,6 +25,7 @@ public class Leaderboard {
                 String[] currLine = lbScanner.nextLine().split(",");
                 HashMap<String,Integer> currPlayer = new HashMap<String,Integer>();
                 currPlayer.put(currLine[0], Integer.parseInt(currLine[1]));
+                players.add(currPlayer);
                 i++;
             }
             lbScanner.close();
@@ -46,6 +47,7 @@ public class Leaderboard {
         for(int i = 0; i < size; i++) {
             if(getPlayerScore(i) < newPlayer.get(name)) {
                 players.add(i, newPlayer);
+                break;
             }
         }
 
@@ -65,14 +67,14 @@ public class Leaderboard {
         for(int i = 0; i < size; i++) {
             result += String.format("%d: %s - %s\n", i+1, getPlayerName(i), getPlayerScore(i));
         }
-        return result;
+        return result.trim();
     }
 
-    private String getPlayerName(int index) {
+    public String getPlayerName(int index) {
         return players.get(index).keySet().iterator().next();
     }
 
-    private int getPlayerScore(int index) {
+    public int getPlayerScore(int index) {
         return players.get(index).values().iterator().next();
     }
 
