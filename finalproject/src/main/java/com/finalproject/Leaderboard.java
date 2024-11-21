@@ -27,6 +27,8 @@ public class Leaderboard {
                 currPlayer.put(currLine[0], Integer.parseInt(currLine[1]));
                 i++;
             }
+            lbScanner.close();
+            
         } catch (FileNotFoundException e) {
             System.out.println("leaderboard.csv not found, place it in the proper directory");
         } catch (NumberFormatException e) {
