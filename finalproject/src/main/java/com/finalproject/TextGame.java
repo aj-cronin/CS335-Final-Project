@@ -6,9 +6,9 @@ public class TextGame {
     public static void main(String[] args) {
         GameController game = new GameController();
         game.start();
+        Scanner input = new Scanner(System.in);
         while (!game.isOver()) { 
             System.out.println(game.getBoard());
-            Scanner input = new Scanner(System.in);
             System.out.println("Direction: ");
             String direction = input.nextLine();
             if (direction.equals("l")){
@@ -23,5 +23,6 @@ public class TextGame {
                 System.out.println("Not a valid direction");
             }
         }
+        input.close();
     }    
 }
