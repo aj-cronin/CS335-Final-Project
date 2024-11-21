@@ -63,7 +63,7 @@ public class Board {
 				Tile left = this.board.get(ii).get(currentIndex);
 				while (left == null && currentIndex > 0){	
 					currentIndex--;
-					if (currentIndex <= 0){
+					if (currentIndex >= 0){
 						left = this.board.get(ii).get(currentIndex);
 					}
 				}
@@ -72,13 +72,17 @@ public class Board {
 					// check if they can combine and left was not combined this round
 					if (left.equals(this.board.get(ii).get(jj)) && !combined){
 						// combine the two tiles
-						left.combine(this.board.get(ii).get(jj));
+						this.board.get(ii).set(currentIndex, left.combine(this.board.get(ii).get(jj)));
+						this.board.get(ii).set(jj, null);
 						score += left.getValue();
 						combined = true;
 						this.tileNum--;
+					// dont move the tile
+					} else if (currentIndex + 1 == jj){
+						combined = false;
 					// dont merge tiles, just put the current next to the next tile to the left
 					} else {
-						this.board.get(ii).set(currentIndex, this.board.get(ii).get(jj));
+						this.board.get(ii).set(currentIndex + 1, this.board.get(ii).get(jj));
 						this.board.get(ii).set(jj, null);
 						combined = false;
 					}
@@ -98,7 +102,7 @@ public class Board {
 		for (int ii = 0; ii < this.boardY; ii++){
 			// whether or no the tile before this was merged(to prevent excess merging)
 			boolean combined = false;
-			for (int jj = this.boardX - 2; jj > 0; jj--){
+			for (int jj = this.boardX - 2; jj >= 0; jj--){
 				// empty space
 				if (this.board.get(ii).get(jj) == null){
 					continue;
@@ -118,13 +122,17 @@ public class Board {
 					// check if they can combine and right was not combined this round
 					if (right.equals(this.board.get(ii).get(jj)) && !combined){
 						// combine the two tiles
-						right.combine(this.board.get(ii).get(jj));
+						this.board.get(ii).set(currentIndex, right.combine(this.board.get(ii).get(jj)));
+						this.board.get(ii).set(jj, null);
 						score += right.getValue();
 						combined = true;
 						this.tileNum--;
+					// dont move the tile
+					} else if (currentIndex - 1 == jj){
+						combined = false;
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
-						this.board.get(ii).set(currentIndex, this.board.get(ii).get(jj));
+						this.board.get(ii).set(currentIndex - 1, this.board.get(ii).get(jj));
 						this.board.get(ii).set(jj, null);
 						combined = false;
 					}
@@ -164,13 +172,17 @@ public class Board {
 					// check if they can combine and right was not combined this round
 					if (up.equals(this.board.get(jj).get(ii)) && !combined){
 						// combine the two tiles
-						up.combine(this.board.get(jj).get(ii));
+						this.board.get(currentIndex).set(ii, up.combine(this.board.get(jj).get(ii)));
+						this.board.get(jj).set(ii, null);
 						score += up.getValue();
 						combined = true;
 						this.tileNum--;
+					// dont move the tile
+					} else if (currentIndex + 1 == jj) {
+						combined = false;
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
-						this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
+						this.board.get(currentIndex + 1).set(ii, this.board.get(jj).get(ii));
 						this.board.get(jj).set(ii, null);
 						combined = false;
 					}
@@ -210,13 +222,17 @@ public class Board {
 					// check if they can combine and right was not combined this round
 					if (down.equals(this.board.get(jj).get(ii)) && !combined){
 						// combine the two tiles
-						down.combine(this.board.get(jj).get(ii));
+						this.board.get(currentIndex).set(ii, down.combine(this.board.get(jj).get(ii)));
+						this.board.get(jj).set(ii, null);
 						score += down.getValue();
 						combined = true;
 						this.tileNum--;
+					// dont move the tile
+					} else if (currentIndex - 1 == jj) {
+						combined = false;
 					// dont merge tiles, just put the current next to the next tile to the right
 					} else {
-						this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
+						this.board.get(currentIndex - 1).set(ii, this.board.get(jj).get(ii));
 						this.board.get(jj).set(ii, null);
 						combined = false;
 					}
@@ -265,7 +281,11 @@ public class Board {
 		for (int ii = 0; ii < this.boardY; ii++){
 			out += "\n|";
 			for (int jj = 0; jj < this.boardX; jj++){
-				out += " " + this.board.get(ii).get(jj).getValue() + " |";
+				if (this.board.get(ii).get(jj) != null){
+					out += " " + this.board.get(ii).get(jj).getValue() + " |";
+				} else {
+					out += " " + " " + " |";
+				}
 			}
 			if (ii != this.boardY - 1){
     			out += "\n|" + "---+".repeat(this.boardX - 1) + "---|";
