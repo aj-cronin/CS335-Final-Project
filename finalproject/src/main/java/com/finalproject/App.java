@@ -1,6 +1,7 @@
 package com.finalproject;
 
 import javafx.application.Application;
+import javafx.scene.Node;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -99,12 +100,21 @@ public class App extends Application {
     }
     
 
-    public void updateTiles(ArrayList<Tile> boardList){
-        
+    // IDEA: use a hashmap to store the board locations of each "tile" space to improve efficiency instead of n^2
+    public void updateTiles(ArrayList<ArrayList<Tile>> boardList){
+        // iterate through the boardList of the tiles
         for(int row = 0; row < boardList.size(); row ++){
-            Tile tmpTile = boardList.get(row);
-            if(tmpTile != null){
-                
+            for(int col = 0; col < boardList.get(row).size(); col ++){
+                Tile tmpTile = boardList.get(row).get(col);
+                // find the corresponding space on the gridpane
+                for(Node node: board.getChildren()){
+                    // if the row and column correlate to the boardList item
+                    if((board.getRowIndex(node) != null) || (board.getColumnIndex(node) != null)){
+                        if((board.getRowIndex(node) == row) && (board.getColumnIndex(node) == col)){
+                            
+                        }
+                    }
+                }
             }
         }
     }
