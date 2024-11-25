@@ -36,7 +36,8 @@
             "name": "App(1)",
             "request": "launch",
             "mainClass": "com.finalproject.App",
-            "vmArgs": "--module-path /Users/ajcronin/Library/CloudStorage/OneDrive-Personal/Coding/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml"
+            //"vmArgs": "--module-path /Users/ajcronin/Library/CloudStorage/OneDrive-Personal/Coding/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml"
+            "vmArgs": "--module-path /Users/brookestetson/Downloads/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml"
         }
     ]
 }
