@@ -142,6 +142,7 @@ public class App extends Application {
     
 
     // IDEA: use a hashmap to store the board locations of each "tile" space to improve efficiency instead of n^2
+    // Takes in the current boardList in which the tiles for the game are stored
     public void updateTiles(ArrayList<ArrayList<Tile>> boardList){
         // iterate through the boardList of the tiles
         for(int row = 0; row < boardList.size(); row ++){
@@ -151,14 +152,25 @@ public class App extends Application {
                 for(Node node: board.getChildren()){
                     // if the row and column correlate to the boardList item
                     if((board.getRowIndex(node) != null) || (board.getColumnIndex(node) != null)){
-                        if((board.getRowIndex(node) == row) && (board.getColumnIndex(node) == col)){
+                        if(((board.getRowIndex(node) - start) == row) && ((board.getColumnIndex(node) - start - 25) == col)){
+                            // once the corresponding tile is found, set the style color
+                            if(tmpTile == null){
+                                node.setStyle("-fx-background-color: #000000;");
+                            }
+                            else{
+                                // set the color according to tile.getcolor()
+                                // just changed to white for now
+                                node.setStyle("-fx-background-color: #FFFFFF;");
+                                // set the label on the tile according to the tile.getValue()
                             
+                            }
                         }
                     }
                 }
             }
         }
     }
+    
     
 
 }
