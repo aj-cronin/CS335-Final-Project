@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.shape.*;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -19,6 +20,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.w3c.dom.css.Rect;
 
 /**
  * JavaFX App
@@ -47,8 +50,10 @@ public class App extends Application {
         scene.setFill(Color.web("FAF8F0"));
         stage.setScene(scene);
 
+        Leaderboard myLeaderboard = new Leaderboard("FinalProject/src/main/java/com/finalproject/leaderboard.csv");
+
         showTitle(root);
-        //showWIP(root);
+        showLeaderboardButton(root, myLeaderboard);
         showBoard(root);
         
 
@@ -65,14 +70,46 @@ public class App extends Application {
         root.getChildren().add(title);
     }
 
-    private void showWIP(Group root) {
-        Text WIP = new Text("Under Construction...");
-        WIP.setX(275);
-        WIP.setY(320);
-        WIP.setTextAlignment(TextAlignment.CENTER);
-        WIP.setFill(Color.web("756452"));
-        WIP.setFont(Font.loadFont("file:finalproject/src/main/resources/fonts/ClearSans-Regular.ttf", 48));
-        root.getChildren().add(WIP);
+    private void showLeaderboardButton(Group root, Leaderboard lb) {
+        Button lbButton = new Button("Leaderboard");
+        lbButton.setLayoutX(850);
+        lbButton.setOnAction((e) -> {
+           displayLeaderboard(root, lb); 
+        });
+
+        root.getChildren().add(lbButton);
+    }
+
+    private void displayLeaderboard(Group root, Leaderboard lb) {
+        String lbString = lb.toString();
+        Text lbText = new Text(lbString);
+
+        lbText.setFill(Color.web("756452"));
+        lbText.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Regular.ttf", 20));
+
+        lbText.setX(400);
+        lbText.setY(200);
+
+        Rectangle coverBoard = new Rectangle(500, 500);
+        coverBoard.setFill(Color.web("FAF8F0"));
+        coverBoard.setX(200);
+        coverBoard.setY(100);
+
+        Button exitButton = new Button("Close");
+
+        exitButton.setLayoutX(850);
+        exitButton.setLayoutY(45);
+        exitButton.setOnAction((e) -> {
+            root.getChildren().clear();
+            showTitle(root);
+            showLeaderboardButton(root, lb);
+            showBoard(root);
+        });
+
+        root.getChildren().add(coverBoard);
+        root.getChildren().add(lbText);
+        root.getChildren().add(exitButton);
+
     }
 
     // creates an empty board of tiles and hashes each StackPane used as a tile to the gridMap
