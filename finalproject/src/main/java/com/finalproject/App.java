@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * JavaFX App
@@ -30,6 +31,8 @@ public class App extends Application {
     private int boardX = start + 4;
     private int boardY = start + 4;
     private GridPane board = new GridPane();
+    // Key: X-coordinate and Y-coordinate seperated by a comma
+    private HashMap<String, StackPane> gridMap = new HashMap<String, StackPane>();
 
     public static void main(String[] args) {
         launch();
@@ -72,7 +75,7 @@ public class App extends Application {
         root.getChildren().add(WIP);
     }
 
-    // creates an empty board of tiles
+    // creates an empty board of tiles and hashes each StackPane used as a tile to the gridMap
     private void showBoard(Group root) {
         // creating a grid to emulate the board and centering it
         board.setAlignment(Pos.CENTER);
@@ -90,7 +93,8 @@ public class App extends Application {
                 tile.setPrefSize(tileSize, tileSize);
                 // can change color later
                 tile.setStyle("-fx-background-color: #000000;");
-
+                String keyStr = (row - start) + "," + (col - start - 25);
+                gridMap.put(keyStr, tile);
                 // Add the tile to the GridPane
                 board.add(tile, col, row);
             }
