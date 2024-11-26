@@ -3,6 +3,7 @@ package com.finalproject;
 public class GameController {
     
     private Board board;
+    private App app;
 
     public GameController(){
         this.board = new Board();
@@ -11,6 +12,8 @@ public class GameController {
     public void start(){
         this.board.addTile();
         this.board.addTile();
+        
+
     }
 
     public void move(Enums.DIRECTION direction){
