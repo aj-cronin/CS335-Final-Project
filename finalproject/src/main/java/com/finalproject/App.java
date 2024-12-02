@@ -53,12 +53,12 @@ public class App extends Application {
         scene.setFill(Color.web("FAF8F0"));
         stage.setScene(scene);
 
-        //Leaderboard myLeaderboard = new Leaderboard("finalproject/src/main/resources/data/leaderboard.csv");
+        Leaderboard myLeaderboard = new Leaderboard("finalproject/src/main/resources/data/leaderboard.csv");
 
-        //SoundEffects.playBackgroundMusic();
+        SoundEffects.playBackgroundMusic();
         showTitle(root);
         showBoard(root);
-        //showEverything(root, myLeaderboard);
+        showEverything(root, myLeaderboard);
         
         stage.show();
     }
