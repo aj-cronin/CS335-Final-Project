@@ -12,7 +12,6 @@ public class GameController {
         this.board.addTile();
         this.board.addTile();
         
-
     }
 
     public void move(Enums.DIRECTION direction){
@@ -29,6 +28,11 @@ public class GameController {
 
     public boolean isOver(){
         return this.board.isFull() || (this.getScore() == 2048);
+    }
+
+    // Returns the "theme" of the game (the range of colors chosen).
+    public Enums.THEME getTheme(){
+        return this.board.getTheme();
     }
 
     

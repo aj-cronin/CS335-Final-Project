@@ -9,12 +9,16 @@ public class Board {
 	private int boardY;
 	private int score;
 	private int tileNum;
+	// adding the ability to change the color theme
+	private Enums.THEME theme;
 	
 	public Board() {
 		this.tileNum = 0;
 		this.score = 0;
 		this.boardX = 4;
 		this.boardY = 4;
+		// sets the default "theme" (the color of the tiles) to BASIC
+		this.theme = Enums.THEME.BASIC;
 		// "inicialize" (as spelled by Nathan) board to a certain size
 		this.board = new ArrayList<ArrayList<Tile>>();
 		for(int ii = 0; ii < 4; ii++) {
@@ -274,6 +278,11 @@ public class Board {
 
 	public boolean isFull(){
 		return this.tileNum == 16;
+	}
+
+	// returns the "theme" of the board, default is "basic"
+	public Enums.THEME getTheme(){
+		return this.theme;
 	}
 
 	public String toString(){

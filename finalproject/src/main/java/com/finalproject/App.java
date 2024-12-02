@@ -33,8 +33,9 @@ public class App extends Application {
     private int boardX = start + 4;
     private int boardY = start + 4;
     private GridPane board = new GridPane();
-    // Key: X-coordinate and Y-coordinate seperated by a comma
-    private HashMap<String, StackPane> gridMap = new HashMap<String, StackPane>();
+    
+    // the controller for the App
+    private GameController controller;
 
     public static void main(String[] args) {
         launch();
@@ -42,6 +43,9 @@ public class App extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
+        // initializing the controller
+        controller = new GameController();
+
         stage.setTitle("2048");
         Group root = new Group();
 
@@ -49,10 +53,12 @@ public class App extends Application {
         scene.setFill(Color.web("FAF8F0"));
         stage.setScene(scene);
 
-        Leaderboard myLeaderboard = new Leaderboard("finalproject/src/main/resources/data/leaderboard.csv");
+        //Leaderboard myLeaderboard = new Leaderboard("finalproject/src/main/resources/data/leaderboard.csv");
 
-        SoundEffects.playBackgroundMusic();
-        showEverything(root, myLeaderboard);
+        //SoundEffects.playBackgroundMusic();
+        showTitle(root);
+        showBoard(root);
+        //showEverything(root, myLeaderboard);
         
         stage.show();
     }
@@ -187,10 +193,8 @@ public class App extends Application {
                 StackPane tile = new StackPane();
                 tile.setMinSize(tileSize, tileSize);
                 tile.setPrefSize(tileSize, tileSize);
-                // can change color later
+                // set the default color to black, indicating no tile is currently there
                 tile.setStyle("-fx-background-color: #000000;");
-                String keyStr = (row - start) + "," + (col - start - 25);
-                gridMap.put(keyStr, tile);
                 // Add the tile to the GridPane
                 board.add(tile, col, row);
             }
@@ -201,7 +205,6 @@ public class App extends Application {
     }
     
 
-    // IDEA: use a hashmap to store the board locations of each "tile" space to improve efficiency instead of n^2
     // Takes in the current boardList in which the tiles for the game are stored
     public void updateTiles(ArrayList<ArrayList<Tile>> boardList){
         // iterate through the boardList of the tiles
@@ -218,17 +221,206 @@ public class App extends Application {
                                 node.setStyle("-fx-background-color: #000000;");
                             }
                             else{
-                                // set the color according to tile.getcolor()
-                                // just changed to white for now
-                                node.setStyle("-fx-background-color: #FFFFFF;");
-                                // set the label on the tile according to the tile.getValue()
-                            
+                                // set the color of the current tile on the board based on the theme and value
+                                setTileColor(node, tmpTile);
+
+                                // set the label on the tile according to the tile value
+                                // creating the label with the value
+                                Text textLabel = new Text(String.valueOf(tmpTile.getValue()));
+                                // adding the label to the current "tile" node on the board (GridPane)
+                                StackPane stackPane = (StackPane) node;
+                                stackPane.getChildren().add(textLabel);
+                                // centering the label in the "tile"
+                                StackPane.setAlignment(textLabel, Pos.CENTER);
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    // Takes a node from the GridPane representing a Tile
+    // Returns
+    private void setTileColor(Node node, Tile tmpTile){
+        // set the color according to tile's indicated color enum
+        // the first shade: 2
+        if(tmpTile.getColor() == Enums.COLOR.SHADE1){
+            // if the theme is BASIC (the default)
+            if(controller.getTheme().equals(Enums.THEME.BASIC)){
+                node.setStyle("-fx-background-color: #fcf1eb;");
+            }
+            // the theme is DARK
+            else if(controller.getTheme().equals(Enums.THEME.DARK)){
+                node.setStyle("-fx-background-color: #f2660d;");
+            }
+            // the theme is LIGHT
+            else{
+                node.setStyle("-fx-background-color: #fef9f5;");
+            }
+
+        }
+        // the second shade: 4
+        else if(tmpTile.getColor() == Enums.COLOR.SHADE2){
+            // if the theme is BASIC (the default)
+            if(controller.getTheme().equals(Enums.THEME.BASIC)){
+                node.setStyle("-fx-background-color: #f6d5c3;");
+            }
+            // the theme is DARK
+            else if(controller.getTheme().equals(Enums.THEME.DARK)){
+                node.setStyle("-fx-background-color: #df5e0c;");
+            }
+            // the theme is LIGHT
+            else{
+                node.setStyle("-fx-background-color: #fdede2;");
+            }
+            
+        }
+        // the third shade: 8
+        else if(tmpTile.getColor() == Enums.COLOR.SHADE3){
+            // if the theme is BASIC (the default)
+            if(controller.getTheme().equals(Enums.THEME.BASIC)){
+                node.setStyle("-fx-background-color: #f0b99b;");
+            }
+            // the theme is DARK
+            else if(controller.getTheme().equals(Enums.THEME.DARK)){
+                node.setStyle("-fx-background-color: #cb560b;");
+            }
+            // the theme is LIGHT
+            else{
+                node.setStyle("-fx-background-color: #fce0cf;");
+            }
+            
+        }
+        //the fouth shade: 16
+        else if(tmpTile.getColor() == Enums.COLOR.SHADE4){
+            // if the theme is BASIC (the default)
+            if(controller.getTheme().equals(Enums.THEME.BASIC)){
+                node.setStyle("-fx-background-color: #e99e72;");
+            }
+            // the theme is DARK
+            else if(controller.getTheme().equals(Enums.THEME.DARK)){
+                node.setStyle("-fx-background-color: #b84e0a;");
+            }
+            // the theme is LIGHT
+            else{
+                node.setStyle("-fx-background-color: #fbd4bb;");
+            }
+            
+        }
+        // the fifth shade: 32
+        else if(tmpTile.getColor() == Enums.COLOR.SHADE5){
+            // if the theme is BASIC (the default)
+            if(controller.getTheme().equals(Enums.THEME.BASIC)){
+                node.setStyle("-fx-background-color: #e3824a;");
+            }
+            // the theme is DARK
+            else if(controller.getTheme().equals(Enums.THEME.DARK)){
+                node.setStyle("-fx-background-color: #a54509;");
+            }
+            // the theme is LIGHT
+            else{
+                node.setStyle("-fx-background-color: #fac8a8;");
+            }
+            
+        }
+        // the sixth shade: 64
+        else if(tmpTile.getColor() == Enums.COLOR.SHADE6){
+            // if the theme is BASIC (the default)
+            if(controller.getTheme().equals(Enums.THEME.BASIC)){
+                node.setStyle("-fx-background-color: #dd6622;");
+            }
+            // the theme is DARK
+            else if(controller.getTheme().equals(Enums.THEME.DARK)){
+                node.setStyle("-fx-background-color: #913d08;");
+            }
+            // the theme is LIGHT
+            else{
+                node.setStyle("-fx-background-color: #f9bc94;");
+            }
+            
+        }
+        // the seventh shade: 128
+        else if(tmpTile.getColor() == Enums.COLOR.SHADE7){
+            // if the theme is BASIC (the default)
+            if(controller.getTheme().equals(Enums.THEME.BASIC)){
+                node.setStyle("-fx-background-color: #b5531c;");
+            }
+            // the theme is DARK
+            else if(controller.getTheme().equals(Enums.THEME.DARK)){
+                node.setStyle("-fx-background-color: #7e3507;");
+            }
+            // the theme is LIGHT
+            else{
+                node.setStyle("-fx-background-color: #f8af81;");
+            }
+            
+        }
+        // the eighth shade: 256
+        else if(tmpTile.getColor() == Enums.COLOR.SHADE8){
+            // if the theme is BASIC (the default)
+            if(controller.getTheme().equals(Enums.THEME.BASIC)){
+                node.setStyle("-fx-background-color: #8d4116;");
+            }
+            // the theme is DARK
+            else if(controller.getTheme().equals(Enums.THEME.DARK)){
+                node.setStyle("-fx-background-color: #6b2d06;");
+            }
+            // the theme is LIGHT
+            else{
+                node.setStyle("-fx-background-color: #f7a36e;");
+            }
+            
+        }
+        // the ninth shade: 512
+        else if(tmpTile.getColor() == Enums.COLOR.SHADE9){
+            // if the theme is BASIC (the default)
+            if(controller.getTheme().equals(Enums.THEME.BASIC)){
+                node.setStyle("-fx-background-color: #642e0f");
+            }
+            // the theme is DARK
+            else if(controller.getTheme().equals(Enums.THEME.DARK)){
+                node.setStyle("-fx-background-color: #572505;");
+            }
+            // the theme is LIGHT
+            else{
+                node.setStyle("-fx-background-color: #f6975a;");
+            }
+            
+        }
+        // the tenth shade: 1024
+        else if(tmpTile.getColor() == Enums.COLOR.SHADE10){
+            // if the theme is BASIC (the default)
+            if(controller.getTheme().equals(Enums.THEME.BASIC)){
+                node.setStyle("-fx-background-color: #3c1c09");
+            }
+            // the theme is DARK
+            else if(controller.getTheme().equals(Enums.THEME.DARK)){
+                node.setStyle("-fx-background-color: #441d04;");
+            }
+            // the theme is LIGHT
+            else{
+                node.setStyle("-fx-background-color: #f58b47;");
+            }
+            
+        }
+        // else the eleventh shade: 2048!
+        else{
+            // if the theme is BASIC (the default)
+            if(controller.getTheme().equals(Enums.THEME.BASIC)){
+                node.setStyle("-fx-background-color: #45200b;");
+            }
+            // the theme is DARK
+            else if(controller.getTheme().equals(Enums.THEME.DARK)){
+                node.setStyle("-fx-background-color: #301403;");
+            }
+            // the theme is LIGHT
+            else{
+                node.setStyle("-fx-background-color: #f47e33;");
+            }
+            
+        }
+
     }
     
     
