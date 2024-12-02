@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.FileNotFoundException;
 
 public class Leaderboard {
     
     ArrayList<HashMap<String,Integer>> players;
     int size;
+    String filename;
 
     public Leaderboard(String filename) {
         // Initialize our collection of players.
@@ -31,12 +34,13 @@ public class Leaderboard {
             lbScanner.close();
             
         } catch (FileNotFoundException e) {
-            System.out.println("leaderboard.csv not found, place it in the proper directory");
+            System.out.format("%s not found, place it in the proper directory.\n", filename);
         } catch (NumberFormatException e) {
-            System.out.println("leaderboard.csv contains score that is not a number.");
+            System.out.format("%s contains score that is not a number.\n", filename);
         }
 
         size = players.size();
+        this.filename = filename;
     }
 
     public void addPlayer(String name, int score) {
@@ -57,6 +61,22 @@ public class Leaderboard {
         } 
     }
 
+    public void writeToFile() {
+        try{
+            FileWriter writer = new FileWriter(filename);
+            String result = "";
+            for(int i = 0; i < size; i++) {
+                result += String.format("%s,%d\n",getPlayerName(i), getPlayerScore(i));
+            }
+            writer.write(result);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.out.format("%s not found, place it in the proper directory.\n", filename);
+        } catch (IOException e) {
+            System.out.format("%s cannot be written to.\n", filename);
+        }
+    }
+
     public ArrayList<HashMap<String,Integer>> getLeaderboard() {
         // Return copy of the list
         return new ArrayList<HashMap<String,Integer>>(players);
@@ -65,7 +85,7 @@ public class Leaderboard {
     public String toString() {
         String result = "";
         for(int i = 0; i < size; i++) {
-            result += String.format("%d: %s - %s\n", i+1, getPlayerName(i), getPlayerScore(i));
+            result += String.format("%d: %s - %d\n", i+1, getPlayerName(i), getPlayerScore(i));
         }
         return result.trim();
     }
