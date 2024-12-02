@@ -57,8 +57,8 @@ public class App extends Application {
         Leaderboard myLeaderboard = new Leaderboard("finalproject/src/main/resources/data/leaderboard.csv");
 
         SoundEffects.playBackgroundMusic();
-        showTitle(root);
-        showBoard(root);
+        //showTitle(root);
+        //showBoard(root);
         updateTiles(controller.getBoardList());
         showEverything(root, myLeaderboard);
         
