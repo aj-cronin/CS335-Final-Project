@@ -45,6 +45,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         // initializing the controller
         controller = new GameController();
+        controller.start();
 
         stage.setTitle("2048");
         Group root = new Group();
@@ -58,6 +59,7 @@ public class App extends Application {
         SoundEffects.playBackgroundMusic();
         showTitle(root);
         showBoard(root);
+        updateTiles(controller.getBoardList());
         showEverything(root, myLeaderboard);
         
         stage.show();

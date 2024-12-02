@@ -1,5 +1,7 @@
 package com.finalproject;
 
+import java.util.ArrayList;
+
 public class GameController {
     
     private Board board;
@@ -24,6 +26,10 @@ public class GameController {
 
     public String getBoard(){
         return this.board.toString();
+    }
+
+    public ArrayList<ArrayList<Tile>> getBoardList(){
+        return board.getBoard();
     }
 
     public boolean isOver(){
