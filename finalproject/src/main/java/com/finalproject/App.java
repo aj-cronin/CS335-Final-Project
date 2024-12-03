@@ -67,6 +67,20 @@ public class App extends Application {
         controller.setBoardTheme(selectedTheme);
 
         scene = new Scene(root, 980, 640);
+        
+        startKeyEvents(root, myLeaderboard);
+
+        stage.setScene(scene);
+
+        SoundEffects.playBackgroundMusic();
+
+        showEverything(root, myLeaderboard);
+        updateTiles(controller.getBoardList());
+
+        stage.show();
+    }
+
+    private void startKeyEvents(Group root, Leaderboard lb){
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event){
@@ -93,19 +107,11 @@ public class App extends Application {
                         updateScore(controller.isOver(), controller.getScore());
                     }
                 } else {
-                    displayLeaderboard(root, myLeaderboard);
+                    displayLeaderboard(root, lb);
                     scene.removeEventFilter(KeyEvent.KEY_PRESSED, this);
                 }
             }
         });
-        stage.setScene(scene);
-
-        SoundEffects.playBackgroundMusic();
-
-        showEverything(root, myLeaderboard);
-        updateTiles(controller.getBoardList());
-
-        stage.show();
     }
 
     private void showEverything(Group root, Leaderboard lb) {
@@ -117,7 +123,6 @@ public class App extends Application {
         showThemePicker(root, lb);
         showVolumeControl(root);
         showScore(root, score);
-        showTiles(root);
     }
 
     private void showControls(Group root){
@@ -177,18 +182,6 @@ public class App extends Application {
         root.getChildren().add(themeBox);
     }
 
-    private void showTiles(Group root) {
-        int yPos = 100;
-        for(int i = 0; i < 11; i++) {
-            Rectangle rect = new Rectangle(50, 30);
-            rect.setFill(selectedTheme.getColor(i));
-            rect.setX(800);
-            rect.setY(yPos);
-            yPos += 40;
-            root.getChildren().add(rect);
-        }
-    }
-
     private void showVolumeControl(Group root) {
         // Easy Values for Quick Changes to the whole group.
         int XOFFSET = 50;
@@ -246,7 +239,7 @@ public class App extends Application {
         root.getChildren().add(lbButton);
     }
 
-    private void displayAddPlayer(Group root, Leaderboard lb, Text lbText) {
+    private void displayEndOfGame(Group root, Leaderboard lb, Text lbText) {
         TextField playerField = new TextField();
         playerField.setLayoutX(400);
         playerField.setLayoutY(500);
@@ -255,11 +248,28 @@ public class App extends Application {
         submitButton.setLayoutX(570);
         submitButton.setLayoutY(500);
 
+        Button startOver = new Button("Start Over");
+            startOver.setLayoutX(400);
+            startOver.setLayoutY(500);
+
         submitButton.setOnAction((e) -> {
-            System.out.format("%s %d", playerField.getText(), controller.getScore());
             lb.addPlayer(playerField.getText(), controller.getScore());
             lb.writeToFile();
             lbText.setText(lb.toString());
+            root.getChildren().remove(playerField);
+            root.getChildren().remove(submitButton);
+
+            root.getChildren().add(startOver);
+        });
+
+        startOver.setOnAction((e) -> {
+            controller = new GameController();
+            controller.start();
+            startKeyEvents(root, lb);
+            root.getChildren().clear();
+            board.getChildren().clear();
+            showEverything(root, lb);
+            updateTiles(controller.getBoardList());
         });
 
         root.getChildren().add(playerField);
@@ -300,9 +310,9 @@ public class App extends Application {
             Rectangle coverButton = new Rectangle(200, 100);
             coverButton.setFill(selectedTheme.getBackground());
             coverButton.setX(130);
-            coverButton.setY(10);
+            coverButton.setY(5);
+            displayEndOfGame(root, lb, lbText);
             root.getChildren().add(coverButton);
-            displayAddPlayer(root, lb, lbText);
         }
 
         root.getChildren().add(exitButton);
