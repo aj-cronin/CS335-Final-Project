@@ -298,6 +298,8 @@ public class App extends Application {
                                 // set the label on the tile according to the tile value
                                 // creating the label with the value
                                 Text textLabel = new Text(String.valueOf(tmpTile.getValue()));
+                                textLabel.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Bold.ttf", 32));
+                                textLabel.setFill(selectedTheme.getText());
                                 // adding the label to the current "tile" node on the board (GridPane)
                                 StackPane stackPane = (StackPane) node;
                                 for (Object element : new ArrayList<Node>(stackPane.getChildren())){
@@ -319,6 +321,7 @@ public class App extends Application {
     // Takes a node from the GridPane representing a Tile
     // Returns
     private void setTileColor(Node node, Tile tmpTile){
+        tmpTile.setTheme(selectedTheme);
         Color tileColor = tmpTile.getColor();
         node.setStyle(String.format("-fx-background-color: #%s;", tileColor.toString().substring(2,8)));
     }
