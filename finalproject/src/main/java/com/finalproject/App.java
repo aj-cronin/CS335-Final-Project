@@ -118,6 +118,7 @@ public class App extends Application {
 
     private void showEverything(Group root, Leaderboard lb) {
         scene.setFill(selectedTheme.getBackground());
+        if(selectedTheme.getImage() != null) root.getChildren().add(selectedTheme.getImage());
         showTitle(root);
         showControls(root);
         showBoard(root);
@@ -289,10 +290,10 @@ public class App extends Application {
         lbText.setX(400);
         lbText.setY(200);
 
-        Rectangle coverBoard = new Rectangle(550, 500);
+        Rectangle coverBoard = new Rectangle(500, 500);
         coverBoard.setFill(selectedTheme.getBackground());
         coverBoard.setOpacity(0.8);
-        coverBoard.setX(200);
+        coverBoard.setX(230);
         coverBoard.setY(100);
 
         Button exitButton = new Button("Close");
@@ -311,7 +312,7 @@ public class App extends Application {
         root.getChildren().add(exitButton);
 
         if (controller.isOver()){
-            Rectangle coverButton = new Rectangle(200, 100);
+            Rectangle coverButton = new Rectangle(200, 40);
             coverButton.setFill(selectedTheme.getBackground());
             coverButton.setX(125);
             coverButton.setY(5);
@@ -326,7 +327,7 @@ public class App extends Application {
     private void showBoard(Group root) {
         // Add border behind tiles
         Rectangle border = new Rectangle(450, 450);
-        border.setX(252);
+        border.setX(260);
         border.setY(127);
         border.setFill(selectedTheme.getSecondary());
         border.setArcHeight(25);
@@ -336,7 +337,7 @@ public class App extends Application {
         board.setAlignment(Pos.CENTER);
         board.setHgap(5);
         board.setVgap(5); 
-        board.setPadding(new Insets(20));
+        board.setPadding(new Insets(20, 28, 20, 28));
 
         // fill in 
         double tileSize = 100;
