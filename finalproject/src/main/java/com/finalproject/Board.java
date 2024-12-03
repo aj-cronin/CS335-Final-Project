@@ -9,6 +9,7 @@ public class Board {
 	private int boardY;
 	private int score;
 	private int tileNum;
+	private int highest;
 	// adding the ability to change the color theme
 	private Theme theme;
 	
@@ -17,6 +18,8 @@ public class Board {
 		this.score = 0;
 		this.boardX = 4;
 		this.boardY = 4;
+		// set highest to 4 as default because we only care if the highest value reaches 2048
+		this.highest = 4;
 		// sets the default "theme" (the color of the tiles) to BASIC
 		this.theme = new Theme("light,d8c644,ff7575,FAF8F0,756452,FFFFFF");
 		// "inicialize" (as spelled by Nathan) board to a certain size
@@ -79,6 +82,9 @@ public class Board {
 						this.board.get(ii).set(currentIndex, left.combine(this.board.get(ii).get(jj)));
 						this.board.get(ii).set(jj, null);
 						score += left.getValue();
+						if (left.getValue() > this.highest){
+							this.highest = left.getValue();
+						}
 						combined = true;
 						this.tileNum--;
 					// dont move the tile
@@ -129,6 +135,9 @@ public class Board {
 						this.board.get(ii).set(currentIndex, right.combine(this.board.get(ii).get(jj)));
 						this.board.get(ii).set(jj, null);
 						score += right.getValue();
+						if (right.getValue() > this.highest){
+							this.highest = right.getValue();
+						}
 						combined = true;
 						this.tileNum--;
 					// dont move the tile
@@ -179,6 +188,9 @@ public class Board {
 						this.board.get(currentIndex).set(ii, up.combine(this.board.get(jj).get(ii)));
 						this.board.get(jj).set(ii, null);
 						score += up.getValue();
+						if (up.getValue() > this.highest){
+							this.highest = up.getValue();
+						}
 						combined = true;
 						this.tileNum--;
 					// dont move the tile
@@ -229,6 +241,9 @@ public class Board {
 						this.board.get(currentIndex).set(ii, down.combine(this.board.get(jj).get(ii)));
 						this.board.get(jj).set(ii, null);
 						score += down.getValue();
+						if (down.getValue() > this.highest){
+							this.highest = down.getValue();
+						}
 						combined = true;
 						this.tileNum--;
 					// dont move the tile

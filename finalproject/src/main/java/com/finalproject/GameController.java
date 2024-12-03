@@ -24,6 +24,10 @@ public class GameController {
         return this.board.getScore();
     }
 
+    public int getHighest(){
+        return this.board.getHighest();
+    }
+
     public String getBoard(){
         return this.board.toString();
     }

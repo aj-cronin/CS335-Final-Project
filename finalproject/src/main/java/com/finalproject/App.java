@@ -40,8 +40,10 @@ public class App extends Application {
     private int boardX = start + 4;
     private int boardY = start + 4;
     private GridPane board = new GridPane();
+    private Text scoreText;
     private ThemeCollection myThemes;
     private Theme selectedTheme;
+    private int score;
     
     // the controller for the App
     private GameController controller;
@@ -55,6 +57,7 @@ public class App extends Application {
         // initializing the controller
         controller = new GameController();
         controller.start();
+        score = controller.getScore();
 
         stage.setTitle("2048");
         Group root = new Group();
@@ -72,15 +75,19 @@ public class App extends Application {
                     if (event.getCode().getName().equals("Up")){
                         controller.move(Enums.DIRECTION.UP);
                         updateTiles(controller.getBoardList());
+                        updateScore(controller.isOver(), controller.getScore());
                     } else if (event.getCode().getName().equals("Down")){
                         controller.move(Enums.DIRECTION.DOWN);
                         updateTiles(controller.getBoardList());
+                        updateScore(controller.isOver(), controller.getScore());
                     } else if (event.getCode().getName().equals("Left")){
                         controller.move(Enums.DIRECTION.LEFT);
                         updateTiles(controller.getBoardList());
+                        updateScore(controller.isOver(), controller.getScore());
                     } else if (event.getCode().getName().equals("Right")){
                         controller.move(Enums.DIRECTION.RIGHT);
                         updateTiles(controller.getBoardList());
+                        updateScore(controller.isOver(), controller.getScore());
                     }
                 }
             }
@@ -102,7 +109,29 @@ public class App extends Application {
         showLeaderboardButton(root, lb);
         showThemePicker(root, lb);
         showVolumeControl(root);
+        showScore(root, score);
         showTiles(root);
+    }
+
+    private void showScore(Group root, int score) {
+        // Creates text for score number.
+        scoreText = new Text("Current Score: " + score);
+        scoreText.setX(430);
+        scoreText.setY(93);
+        scoreText.setTextAlignment(TextAlignment.CENTER);
+        scoreText.setFill(selectedTheme.getSecondary());
+        scoreText.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Regular.ttf", 15));
+
+        root.getChildren().add(scoreText);
+    }
+
+    private void updateScore(boolean isOver, int score) {
+        if (isOver) {
+            scoreText.setText("Final Score: " + score + "!");
+            scoreText.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Bold.ttf", 20));
+        } else {
+            scoreText.setText("Current Score: " + score);
+        }
     }
 
     private void showThemePicker(Group root, Leaderboard lb) {
