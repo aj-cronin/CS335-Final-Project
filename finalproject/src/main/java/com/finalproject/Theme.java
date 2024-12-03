@@ -29,20 +29,25 @@ public class Theme {
     }
 
     private void makeGradient() {
-        double r1 = start.getRed();
-        double g1 = start.getGreen();
-        double b1 = start.getBlue();
+        double r1 = start.getRed() *255;
+        double g1 = start.getGreen() *255;
+        double b1 = start.getBlue() *255;
+        System.out.format("%f %f %f\n", r1, g1, b1);
 
-        double r2 = end.getRed();
-        double g2 = end.getGreen();
-        double b2 = end.getBlue();
+        double r2 = end.getRed() *255;
+        double g2 = end.getGreen() *255;
+        double b2 = end.getBlue() *255;
+        System.out.format("%f %f %f\n", r2, g2, b2);
 
-        double redInc = r2-r1 / 10.0;
-        double greenInc = g2-g1 / 10.0;
-        double blueInc = b2-b1 / 10.0;
 
+        double redInc = (r2-r1) / 11.0;
+        double greenInc = (g2-g1) / 11.0;
+        double blueInc = (b2-b1) / 11.0;
+        System.out.println("\n\n\n\n\n\n\n" + this.name);
         for(int i = 0; i < 11; i++) {
-            tileColors.add(Color.rgb((int) (r1 + redInc * i), (int) (g1 + greenInc * i), (int) (b1 + blueInc * i)));
+            Color currColor = Color.rgb((int) (r1 + redInc * i), (int) (g1 + greenInc * i), (int) (b1 + blueInc * i));
+            System.out.println(currColor);
+            tileColors.add(currColor);
         }
     }
 

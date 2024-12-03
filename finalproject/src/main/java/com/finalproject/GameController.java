@@ -32,12 +32,16 @@ public class GameController {
         return board.getBoard();
     }
 
+    public void setBoardTheme(Theme newTheme){
+        board.setTheme(newTheme);
+    }
+
     public boolean isOver(){
         return this.board.isFull() || (this.getScore() == 2048);
     }
 
     // Returns the "theme" of the game (the range of colors chosen).
-    public Enums.THEME getTheme(){
+    public Theme getTheme(){
         return this.board.getTheme();
     }
 
