@@ -106,6 +106,7 @@ public class App extends Application {
                         updateTiles(controller.getBoardList());
                         updateScore(controller.isOver(), controller.getScore());
                     }
+                    SoundEffects.playNewTileSound();
                 } else {
                     displayLeaderboard(root, lb);
                     scene.removeEventFilter(KeyEvent.KEY_PRESSED, this);
