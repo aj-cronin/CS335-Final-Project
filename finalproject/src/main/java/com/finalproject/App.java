@@ -41,6 +41,7 @@ public class App extends Application {
     private int boardY = start + 4;
     private GridPane board = new GridPane();
     private Text scoreText;
+    private Text controlText;
     private ThemeCollection myThemes;
     private Theme selectedTheme;
     private int score;
@@ -72,22 +73,22 @@ public class App extends Application {
             @Override
             public void handle(KeyEvent event){
                 if (!controller.isOver()){
-                    if (event.getCode().getName().equals("Up")){
+                    if (event.getCode().getName().equals("W")){
                         SoundEffects.playMoveSound();
                         controller.move(Enums.DIRECTION.UP);
                         updateTiles(controller.getBoardList());
                         updateScore(controller.isOver(), controller.getScore());
-                    } else if (event.getCode().getName().equals("Down")){
+                    } else if (event.getCode().getName().equals("S")){
                         SoundEffects.playMoveSound();
                         controller.move(Enums.DIRECTION.DOWN);
                         updateTiles(controller.getBoardList());
                         updateScore(controller.isOver(), controller.getScore());
-                    } else if (event.getCode().getName().equals("Left")){
+                    } else if (event.getCode().getName().equals("A")){
                         SoundEffects.playMoveSound();
                         controller.move(Enums.DIRECTION.LEFT);
                         updateTiles(controller.getBoardList());
                         updateScore(controller.isOver(), controller.getScore());
-                    } else if (event.getCode().getName().equals("Right")){
+                    } else if (event.getCode().getName().equals("D")){
                         SoundEffects.playMoveSound();
                         controller.move(Enums.DIRECTION.RIGHT);
                         updateTiles(controller.getBoardList());
@@ -109,12 +110,24 @@ public class App extends Application {
     private void showEverything(Group root, Leaderboard lb) {
         scene.setFill(selectedTheme.getBackground());
         showTitle(root);
+        showControls(root);
         showBoard(root);
         showLeaderboardButton(root, lb);
         showThemePicker(root, lb);
         showVolumeControl(root);
         showScore(root, score);
         showTiles(root);
+    }
+
+    private void showControls(Group root){
+        controlText = new Text("Move tiles\nwith WASD");
+        controlText.setX(50);
+        controlText.setY(300);
+        controlText.setTextAlignment(TextAlignment.CENTER);
+        controlText.setFill(selectedTheme.getSecondary());
+        controlText.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Bold.ttf", 30));
+
+        root.getChildren().add(controlText);
     }
 
     private void showScore(Group root, int score) {

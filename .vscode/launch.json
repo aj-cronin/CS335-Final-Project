@@ -36,11 +36,11 @@
             "name": "App(1)",
             "request": "launch",
             "mainClass": "com.finalproject.App",
-            // "vmArgs": "--module-path C:/Users/Nate/Downloads/openjfx-23.0.1_windows-x64_bin-sdk/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml,javafx.media"
+            "vmArgs": "--module-path C:/Users/Nate/Downloads/openjfx-23.0.1_windows-x64_bin-sdk/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml,javafx.media"
             // "vmArgs": "--module-path C:/Users/ajcro/OneDrive/Coding/WindowsJavaFX/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml,javafx.media"
             // "vmArgs": "--module-path /Users/ajcronin/Library/CloudStorage/OneDrive-Personal/Coding/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml,javafx.media"
             // "vmArgs": "--module-path /Users/brookestetson/Downloads/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml,javafx.media"
-            "vmArgs": "--module-path C:/Users/aidan/x/Final_Project_335/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml,javafx.media"
+            // "vmArgs": "--module-path C:/Users/aidan/x/Final_Project_335/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml,javafx.media"
         }
     ]
 }
