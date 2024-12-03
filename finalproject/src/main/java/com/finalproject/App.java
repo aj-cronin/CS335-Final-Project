@@ -92,6 +92,9 @@ public class App extends Application {
                         updateTiles(controller.getBoardList());
                         updateScore(controller.isOver(), controller.getScore());
                     }
+                } else {
+                    displayLeaderboard(root, myLeaderboard);
+                    scene.removeEventFilter(KeyEvent.KEY_PRESSED, this);
                 }
             }
         });
@@ -238,7 +241,6 @@ public class App extends Application {
         lbButton.setOnAction((e) -> {
             root.getChildren().remove(lbButton);
             displayLeaderboard(root, lb);
-
         });
 
         root.getChildren().add(lbButton);
@@ -293,9 +295,17 @@ public class App extends Application {
         
         root.getChildren().add(coverBoard);
         root.getChildren().add(lbText);
-        root.getChildren().add(exitButton);
 
-        displayAddPlayer(root, lb, lbText);
+        if (controller.isOver()){
+            Rectangle coverButton = new Rectangle(200, 100);
+            coverButton.setFill(selectedTheme.getBackground());
+            coverButton.setX(130);
+            coverButton.setY(10);
+            root.getChildren().add(coverButton);
+            displayAddPlayer(root, lb, lbText);
+        }
+
+        root.getChildren().add(exitButton);
     }
 
     // creates an empty board of tiles and hashes each StackPane used as a tile to the gridMap
