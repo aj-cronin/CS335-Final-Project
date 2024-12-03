@@ -82,8 +82,8 @@ public class Board {
 						this.board.get(ii).set(currentIndex, left.combine(this.board.get(ii).get(jj)));
 						this.board.get(ii).set(jj, null);
 						score += (2*left.getValue());
-						if (left.getValue() > this.highest){
-							this.highest = left.getValue();
+						if (2*left.getValue() > this.highest){
+							this.highest = 2*left.getValue();
 						}
 						combined = true;
 						this.tileNum--;
@@ -135,8 +135,8 @@ public class Board {
 						this.board.get(ii).set(currentIndex, right.combine(this.board.get(ii).get(jj)));
 						this.board.get(ii).set(jj, null);
 						score += (2*right.getValue());
-						if (right.getValue() > this.highest){
-							this.highest = right.getValue();
+						if (2*right.getValue() > this.highest){
+							this.highest = 2*right.getValue();
 						}
 						combined = true;
 						this.tileNum--;
@@ -188,8 +188,8 @@ public class Board {
 						this.board.get(currentIndex).set(ii, up.combine(this.board.get(jj).get(ii)));
 						this.board.get(jj).set(ii, null);
 						score += (2*up.getValue());
-						if (up.getValue() > this.highest){
-							this.highest = up.getValue();
+						if (2*up.getValue() > this.highest){
+							this.highest = 2*up.getValue();
 						}
 						combined = true;
 						this.tileNum--;
@@ -241,8 +241,8 @@ public class Board {
 						this.board.get(currentIndex).set(ii, down.combine(this.board.get(jj).get(ii)));
 						this.board.get(jj).set(ii, null);
 						score += (2*down.getValue());
-						if (down.getValue() > this.highest){
-							this.highest = down.getValue();
+						if (2*down.getValue() > this.highest){
+							this.highest = 2*down.getValue();
 						}
 						combined = true;
 						this.tileNum--;
