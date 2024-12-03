@@ -55,7 +55,8 @@ public class Board {
 		}
 	}
 	
-	private void moveLeft() {
+	private boolean moveLeft() {
+		boolean moved = false;
 		for (int ii = 0; ii < this.boardY; ii++){
 			// whether or no the tile before this was merged(to prevent excess merging)
 			boolean combined = false;
@@ -87,6 +88,7 @@ public class Board {
 						}
 						combined = true;
 						this.tileNum--;
+						moved = true;
 					// dont move the tile
 					} else if (currentIndex + 1 == jj){
 						combined = false;
@@ -95,20 +97,28 @@ public class Board {
 						this.board.get(ii).set(currentIndex + 1, this.board.get(ii).get(jj));
 						this.board.get(ii).set(jj, null);
 						combined = false;
+						moved = true;
 					}
 				} else {
 					// dont merge tiles, just put the current next to the next tile to the left or the wall
 					this.board.get(ii).set(currentIndex, this.board.get(ii).get(jj));
 					this.board.get(ii).set(jj, null);
 					combined = false;
+					if (currentIndex != jj) {
+						moved = true;
+					}
 				}
 				
 			}
 		}
-		this.addTile();
+		if (moved) {
+			this.addTile();
+		}
+		return moved;
 	}
 	
-	private void moveRight() {
+	private boolean moveRight() {
+		boolean moved = false;
 		for (int ii = 0; ii < this.boardY; ii++){
 			// whether or no the tile before this was merged(to prevent excess merging)
 			boolean combined = false;
@@ -140,6 +150,7 @@ public class Board {
 						}
 						combined = true;
 						this.tileNum--;
+						moved = true;
 					// dont move the tile
 					} else if (currentIndex - 1 == jj){
 						combined = false;
@@ -148,20 +159,28 @@ public class Board {
 						this.board.get(ii).set(currentIndex - 1, this.board.get(ii).get(jj));
 						this.board.get(ii).set(jj, null);
 						combined = false;
+						moved = true;
 					}
 				} else {
 					// dont merge tiles, just put the current next to the next tile to the right or the wall
 					this.board.get(ii).set(currentIndex, this.board.get(ii).get(jj));
 					this.board.get(ii).set(jj, null);
 					combined = false;
+					if (currentIndex != jj) {
+						moved = true;
+					}
 				}
 				
 			}
 		}
-		this.addTile();
+		if (moved) {
+			this.addTile();
+		}
+		return moved;
 	}
 	
-	private void moveUp() {
+	private boolean moveUp() {
+		boolean moved = false;
 		for (int ii = 0; ii < this.boardX; ii++){
 			// whether or no the tile before this was merged(to prevent excess merging)
 			boolean combined = false;
@@ -193,6 +212,7 @@ public class Board {
 						}
 						combined = true;
 						this.tileNum--;
+						moved = true;
 					// dont move the tile
 					} else if (currentIndex + 1 == jj) {
 						combined = false;
@@ -201,20 +221,28 @@ public class Board {
 						this.board.get(currentIndex + 1).set(ii, this.board.get(jj).get(ii));
 						this.board.get(jj).set(ii, null);
 						combined = false;
+						moved = true;
 					}
 				} else {
 					// dont merge tiles, just put the current next to the next tile to the right or the wall
 					this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
 					this.board.get(jj).set(ii, null);
 					combined = false;
+					if (currentIndex != jj) {
+						moved = true;
+					}
 				}
 				
 			}
 		}
-		this.addTile();
+		if (moved) {
+			this.addTile();
+		}
+		return moved;
 	}
 	
-	private void moveDown() {
+	private boolean moveDown() {
+		boolean moved = false;
 		for (int ii = 0; ii < this.boardX; ii++){
 			// whether or no the tile before this was merged(to prevent excess merging)
 			boolean combined = false;
@@ -246,6 +274,7 @@ public class Board {
 						}
 						combined = true;
 						this.tileNum--;
+						moved = true;
 					// dont move the tile
 					} else if (currentIndex - 1 == jj) {
 						combined = false;
@@ -254,17 +283,24 @@ public class Board {
 						this.board.get(currentIndex - 1).set(ii, this.board.get(jj).get(ii));
 						this.board.get(jj).set(ii, null);
 						combined = false;
+						moved = true;
 					}
 				} else {
 					// dont merge tiles, just put the current next to the next tile to the right or the wall
 					this.board.get(currentIndex).set(ii, this.board.get(jj).get(ii));
 					this.board.get(jj).set(ii, null);
 					combined = false;
+					if (currentIndex != jj) {
+						moved = true;
+					}
 				}
 				
 			}
 		}
-		this.addTile();
+		if (moved) {
+			this.addTile();
+		}
+		return moved;
 	}
 
 	public void addTile(){
