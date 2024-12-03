@@ -33,6 +33,8 @@ public class App extends Application {
     private int boardX = start + 4;
     private int boardY = start + 4;
     private GridPane board = new GridPane();
+    private ThemeCollection myThemes;
+    private Theme selectedTheme;
     
     // the controller for the App
     private GameController controller;
@@ -50,18 +52,20 @@ public class App extends Application {
         stage.setTitle("2048");
         Group root = new Group();
 
+        Leaderboard myLeaderboard = new Leaderboard("finalproject/src/main/resources/data/leaderboard.csv");
+        myThemes = new ThemeCollection("finalproject/src/main/resources/data/themes.csv");
+        myThemes.setSelectedTheme("dark");
+        selectedTheme = myThemes.getSelectedTheme();
+
         scene = new Scene(root, 980, 640);
-        scene.setFill(Color.web("FAF8F0"));
+        scene.setFill(selectedTheme.getBackground());
         stage.setScene(scene);
 
-        Leaderboard myLeaderboard = new Leaderboard("finalproject/src/main/resources/data/leaderboard.csv");
-
         SoundEffects.playBackgroundMusic();
-        //showTitle(root);
-        //showBoard(root);
-        updateTiles(controller.getBoardList());
+
         showEverything(root, myLeaderboard);
-        
+        updateTiles(controller.getBoardList());
+
         stage.show();
     }
 
@@ -80,7 +84,7 @@ public class App extends Application {
         
         // Adds border behind volume control.
         Rectangle border = new Rectangle(160, 50);
-        border.setFill(Color.web("756452"));
+        border.setFill(selectedTheme.getSecondary());
         border.setX(750+XOFFSET);
         border.setY(25+YOFFSET);
         border.setArcWidth(15);
@@ -90,7 +94,7 @@ public class App extends Application {
         Text volumeNumber = new Text("Volume: 100");
         volumeNumber.setLayoutX(765+XOFFSET);
         volumeNumber.setLayoutY(47+YOFFSET);
-        volumeNumber.setFill(Color.WHITE);
+        volumeNumber.setFill(selectedTheme.getText());
         volumeNumber.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Regular.ttf", 15));
 
         // Creates slider that can adjust the volume.
@@ -125,7 +129,7 @@ public class App extends Application {
         title.setX(430);
         title.setY(60);
         title.setTextAlignment(TextAlignment.CENTER);
-        title.setFill(Color.web("756452"));
+        title.setFill(selectedTheme.getSecondary());
         title.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Bold.ttf", 48));
         root.getChildren().add(title);
     }
@@ -144,14 +148,14 @@ public class App extends Application {
         String lbString = lb.toString();
         Text lbText = new Text(lbString);
 
-        lbText.setFill(Color.web("756452"));
+        lbText.setFill(selectedTheme.getSecondary());
         lbText.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Regular.ttf", 20));
 
         lbText.setX(400);
         lbText.setY(200);
 
         Rectangle coverBoard = new Rectangle(550, 500);
-        coverBoard.setFill(Color.web("FAF8F0"));
+        coverBoard.setFill(selectedTheme.getBackground());
         coverBoard.setOpacity(0.8);
         coverBoard.setX(200);
         coverBoard.setY(100);
@@ -177,7 +181,7 @@ public class App extends Application {
         Rectangle border = new Rectangle(450, 450);
         border.setX(252);
         border.setY(127);
-        border.setFill(Color.web("9B8A7C"));
+        border.setFill(selectedTheme.getSecondary());
         border.setArcHeight(25);
         border.setArcWidth(25);
 
@@ -196,7 +200,7 @@ public class App extends Application {
                 tile.setMinSize(tileSize, tileSize);
                 tile.setPrefSize(tileSize, tileSize);
                 // set the default color to black, indicating no tile is currently there
-                tile.setStyle("-fx-background-color: #000000;");
+                tile.setStyle("-fx-background-color: #FFFFFF7F;");
                 // Add the tile to the GridPane
                 board.add(tile, col, row);
             }
@@ -220,7 +224,7 @@ public class App extends Application {
                         if(((board.getRowIndex(node) - start) == row) && ((board.getColumnIndex(node) - start - 25) == col)){
                             // once the corresponding tile is found, set the style color
                             if(tmpTile == null){
-                                node.setStyle("-fx-background-color: #000000;");
+                                node.setStyle("-fx-background-color: #FFFFFF7F;");
                             }
                             else{
                                 // set the color of the current tile on the board based on the theme and value
