@@ -47,7 +47,7 @@ public class SoundEffects {
 
     public static void playCombineSound() {
         combineSound.play();
-        newTileSound.setOnEndOfMedia(newTileSound::stop);
+        newTileSound.setOnEndOfMedia(combineSound::stop);
     }
     
     public static void setVolume(double vol) {
