@@ -42,7 +42,6 @@ public class App extends Application {
     private Text controlText;
     private ThemeCollection myThemes;
     private Theme selectedTheme;
-    private int score;
     
     // the controller for the App
     private GameController controller;
@@ -56,7 +55,6 @@ public class App extends Application {
         // initializing the controller
         controller = new GameController();
         controller.start();
-        score = controller.getScore();
 
         stage.setTitle("2048");
         Group root = new Group();
@@ -90,23 +88,26 @@ public class App extends Application {
                         controller.move(Enums.DIRECTION.UP);
                         updateTiles(controller.getBoardList());
                         updateScore(controller.isOver(), controller.getScore());
+                        SoundEffects.playNewTileSound();
                     } else if (event.getCode().getName().equals("S")){
                         SoundEffects.playMoveSound();
                         controller.move(Enums.DIRECTION.DOWN);
                         updateTiles(controller.getBoardList());
                         updateScore(controller.isOver(), controller.getScore());
+                        SoundEffects.playNewTileSound();
                     } else if (event.getCode().getName().equals("A")){
                         SoundEffects.playMoveSound();
                         controller.move(Enums.DIRECTION.LEFT);
                         updateTiles(controller.getBoardList());
                         updateScore(controller.isOver(), controller.getScore());
+                        SoundEffects.playNewTileSound();
                     } else if (event.getCode().getName().equals("D")){
                         SoundEffects.playMoveSound();
                         controller.move(Enums.DIRECTION.RIGHT);
                         updateTiles(controller.getBoardList());
                         updateScore(controller.isOver(), controller.getScore());
+                        SoundEffects.playNewTileSound();
                     }
-                    SoundEffects.playNewTileSound();
                 } else {
                     displayLeaderboard(root, lb);
                     scene.removeEventFilter(KeyEvent.KEY_PRESSED, this);
@@ -123,7 +124,7 @@ public class App extends Application {
         showLeaderboardButton(root, lb);
         showThemePicker(root, lb);
         showVolumeControl(root);
-        showScore(root, score);
+        showScore(root);
     }
 
     private void showControls(Group root){
@@ -138,9 +139,9 @@ public class App extends Application {
         root.getChildren().add(controlText);
     }
 
-    private void showScore(Group root, int score) {
+    private void showScore(Group root) {
         // Creates text for score number.
-        scoreText = new Text("Current Score: " + score);
+        scoreText = new Text("Current Score: " + controller.getScore());
         scoreText.setX(430);
         scoreText.setY(93);
         scoreText.setTextAlignment(TextAlignment.CENTER);
@@ -307,17 +308,18 @@ public class App extends Application {
         
         root.getChildren().add(coverBoard);
         root.getChildren().add(lbText);
+        root.getChildren().add(exitButton);
 
         if (controller.isOver()){
             Rectangle coverButton = new Rectangle(200, 100);
             coverButton.setFill(selectedTheme.getBackground());
-            coverButton.setX(130);
+            coverButton.setX(125);
             coverButton.setY(5);
             displayEndOfGame(root, lb, lbText);
             root.getChildren().add(coverButton);
         }
 
-        root.getChildren().add(exitButton);
+        
     }
 
     // creates an empty board of tiles and hashes each StackPane used as a tile to the gridMap
