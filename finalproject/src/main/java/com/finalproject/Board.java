@@ -263,9 +263,9 @@ public class Board {
 
 		double chanceOf4 = Math.random();
 		if (chanceOf4 >= 0.9){
-			this.board.get(y).set(x, new Tile(4));
+			this.board.get(y).set(x, new Tile(4, theme));
 		} else {
-			this.board.get(y).set(x, new Tile(2));
+			this.board.get(y).set(x, new Tile(2, theme));
 		}
 
 		this.tileNum++;
@@ -287,6 +287,11 @@ public class Board {
 
 	public void setTheme(Theme newTheme) {
 		theme = newTheme;
+		for(ArrayList<Tile> row: board) {
+			for(Tile tile: row) {
+				if(tile != null) tile.setTheme(newTheme);
+			}
+		}
 	}
 
 	public String toString(){

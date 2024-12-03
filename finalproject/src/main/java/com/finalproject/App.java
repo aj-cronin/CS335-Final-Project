@@ -76,6 +76,19 @@ public class App extends Application {
         showLeaderboardButton(root, lb);
         showSoundButton(root);
         showVolumeControl(root);
+        showTiles(root);
+    }
+
+    private void showTiles(Group root) {
+        int yPos = 10;
+        for(int i = 0; i < 11; i++) {
+            Rectangle rect = new Rectangle(50, 30);
+            rect.setFill(selectedTheme.getColor(i));
+            rect.setX(35);
+            rect.setY(yPos);
+            yPos += 40;
+            root.getChildren().add(rect);
+        }
     }
 
     private void showVolumeControl(Group root) {
@@ -252,7 +265,7 @@ public class App extends Application {
     private void setTileColor(Node node, Tile tmpTile){
         Color tileColor = tmpTile.getColor();
         System.out.println(tileColor);
-        node.setStyle(String.format("-fx-background-color: rgb(%d,%d,%d);", (int)(tileColor.getRed()*255), (int)(tileColor.getGreen()*255), (int)(tileColor.getBlue()*255)));
+        node.setStyle(String.format("-fx-background-color: #%s;", tileColor.toString().substring(2,8)));
     }
     
     

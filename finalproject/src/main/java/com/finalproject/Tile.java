@@ -34,6 +34,10 @@ public class Tile{
         return this.value;
     }
 
+    public void setTheme(Theme newTheme){
+        theme = newTheme;
+    }
+
     // combines two Tiles into one if they are equal, returns this new Tile
     public Tile combine(Tile other){
         if(this.equals(other)){
@@ -50,4 +54,5 @@ public class Tile{
         }
         return false;
     }
+
 }
