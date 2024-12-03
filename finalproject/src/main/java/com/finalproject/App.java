@@ -12,6 +12,7 @@ import javafx.scene.shape.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -22,8 +23,11 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javafx.event.EventHandler;
 
 /**
  * JavaFX App
@@ -61,6 +65,26 @@ public class App extends Application {
         controller.setBoardTheme(selectedTheme);
 
         scene = new Scene(root, 980, 640);
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event){
+                if (!controller.isOver()){
+                    if (event.getCode().getName().equals("Up")){
+                        controller.move(Enums.DIRECTION.UP);
+                        updateTiles(controller.getBoardList());
+                    } else if (event.getCode().getName().equals("Down")){
+                        controller.move(Enums.DIRECTION.DOWN);
+                        updateTiles(controller.getBoardList());
+                    } else if (event.getCode().getName().equals("Left")){
+                        controller.move(Enums.DIRECTION.LEFT);
+                        updateTiles(controller.getBoardList());
+                    } else if (event.getCode().getName().equals("Right")){
+                        controller.move(Enums.DIRECTION.RIGHT);
+                        updateTiles(controller.getBoardList());
+                    }
+                }
+            }
+        });
         stage.setScene(scene);
 
         SoundEffects.playBackgroundMusic();
@@ -257,6 +281,15 @@ public class App extends Application {
                             // once the corresponding tile is found, set the style color
                             if(tmpTile == null){
                                 node.setStyle("-fx-background-color: #FFFFFF7F;");
+
+                                Text textLabel = new Text("");
+                                StackPane stackPane = (StackPane) node;
+
+                                for (Object element : new ArrayList<Node>(stackPane.getChildren())){
+                                    if (element.getClass() == textLabel.getClass()){
+                                        stackPane.getChildren().remove(element);
+                                    }
+                                }
                             }
                             else{
                                 // set the color of the current tile on the board based on the theme and value
@@ -267,6 +300,11 @@ public class App extends Application {
                                 Text textLabel = new Text(String.valueOf(tmpTile.getValue()));
                                 // adding the label to the current "tile" node on the board (GridPane)
                                 StackPane stackPane = (StackPane) node;
+                                for (Object element : new ArrayList<Node>(stackPane.getChildren())){
+                                    if (element.getClass() == textLabel.getClass()){
+                                        stackPane.getChildren().remove(element);
+                                    }
+                                }
                                 stackPane.getChildren().add(textLabel);
                                 // centering the label in the "tile"
                                 StackPane.setAlignment(textLabel, Pos.CENTER);
