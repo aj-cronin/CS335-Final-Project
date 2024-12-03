@@ -291,6 +291,10 @@ public class Board {
 		return this.score;
 	}
 
+	public int getHighest(){
+		return this.highest;
+	}
+
 	public boolean isFull(){
 		return this.tileNum == 16;
 	}
