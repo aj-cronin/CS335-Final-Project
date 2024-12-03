@@ -84,25 +84,21 @@ public class App extends Application {
             public void handle(KeyEvent event){
                 if (!controller.isOver()){
                     if (event.getCode().getName().equals("W")){
-                        SoundEffects.playMoveSound();
                         controller.move(Enums.DIRECTION.UP);
                         updateTiles(controller.getBoardList());
                         updateScore(controller.isOver(), controller.getScore());
                         SoundEffects.playNewTileSound();
                     } else if (event.getCode().getName().equals("S")){
-                        SoundEffects.playMoveSound();
                         controller.move(Enums.DIRECTION.DOWN);
                         updateTiles(controller.getBoardList());
                         updateScore(controller.isOver(), controller.getScore());
                         SoundEffects.playNewTileSound();
                     } else if (event.getCode().getName().equals("A")){
-                        SoundEffects.playMoveSound();
                         controller.move(Enums.DIRECTION.LEFT);
                         updateTiles(controller.getBoardList());
                         updateScore(controller.isOver(), controller.getScore());
                         SoundEffects.playNewTileSound();
                     } else if (event.getCode().getName().equals("D")){
-                        SoundEffects.playMoveSound();
                         controller.move(Enums.DIRECTION.RIGHT);
                         updateTiles(controller.getBoardList());
                         updateScore(controller.isOver(), controller.getScore());
