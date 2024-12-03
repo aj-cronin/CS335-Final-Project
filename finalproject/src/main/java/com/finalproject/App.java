@@ -1,6 +1,8 @@
 package com.finalproject;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.shape.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -54,12 +57,10 @@ public class App extends Application {
 
         Leaderboard myLeaderboard = new Leaderboard("finalproject/src/main/resources/data/leaderboard.csv");
         myThemes = new ThemeCollection("finalproject/src/main/resources/data/themes.csv");
-        myThemes.setSelectedTheme("underwater");
         selectedTheme = myThemes.getSelectedTheme();
         controller.setBoardTheme(selectedTheme);
 
         scene = new Scene(root, 980, 640);
-        scene.setFill(selectedTheme.getBackground());
         stage.setScene(scene);
 
         SoundEffects.playBackgroundMusic();
@@ -71,20 +72,46 @@ public class App extends Application {
     }
 
     private void showEverything(Group root, Leaderboard lb) {
+        scene.setFill(selectedTheme.getBackground());
         showTitle(root);
         showBoard(root);
         showLeaderboardButton(root, lb);
-        showSoundButton(root);
+        showThemePicker(root, lb);
         showVolumeControl(root);
         showTiles(root);
     }
 
+    private void showThemePicker(Group root, Leaderboard lb) {
+        ObservableList<String> options = FXCollections.observableArrayList();
+        for(Theme theme: myThemes.getThemes()) {
+            options.add((theme.getUppercaseName()));
+        }
+        ComboBox<String> themeBox = new ComboBox<String>(options);
+        themeBox.setLayoutX(10);
+        themeBox.setLayoutY(10);
+        themeBox.setPromptText(selectedTheme.getUppercaseName());
+
+        themeBox.setOnAction((e) -> {
+            if(themeBox.getValue() != null) {
+                myThemes.setSelectedTheme("" + themeBox.getValue());
+                selectedTheme = myThemes.getSelectedTheme();
+                controller.setBoardTheme(selectedTheme);
+                root.getChildren().clear();
+                board.getChildren().clear();
+                showEverything(root, lb);
+                updateTiles(controller.getBoardList());
+            }
+        });
+
+        root.getChildren().add(themeBox);
+    }
+
     private void showTiles(Group root) {
-        int yPos = 10;
+        int yPos = 100;
         for(int i = 0; i < 11; i++) {
             Rectangle rect = new Rectangle(50, 30);
             rect.setFill(selectedTheme.getColor(i));
-            rect.setX(35);
+            rect.setX(800);
             rect.setY(yPos);
             yPos += 40;
             root.getChildren().add(rect);
@@ -126,18 +153,6 @@ public class App extends Application {
         root.getChildren().add(volumeNumber);
     }
 
-
-    private void showSoundButton(Group root) {
-        Button soundButton = new Button("Play Sound");
-        soundButton.setLayoutX(850);
-        soundButton.setLayoutY(300);
-        soundButton.setOnAction((e) -> {
-           SoundEffects.playMoveSound(); 
-        });
-
-        root.getChildren().add(soundButton);
-    }
-
     private void showTitle(Group root) {
         Text title = new Text("2048");
         title.setX(430);
@@ -150,7 +165,8 @@ public class App extends Application {
 
     private void showLeaderboardButton(Group root, Leaderboard lb) {
         Button lbButton = new Button("Leaderboard");
-        lbButton.setLayoutX(100);
+        lbButton.setLayoutX(120);
+        lbButton.setLayoutY(10);
         lbButton.setOnAction((e) -> {
            displayLeaderboard(root, lb); 
         });
@@ -176,7 +192,7 @@ public class App extends Application {
 
         Button exitButton = new Button("Close");
 
-        exitButton.setLayoutX(100);
+        exitButton.setLayoutX(120);
         exitButton.setLayoutY(45);
         exitButton.setOnAction((e) -> {
             root.getChildren().clear();

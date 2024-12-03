@@ -29,6 +29,10 @@ public class ThemeCollection {
         return selectedTheme;
     }
 
+    public ArrayList<Theme> getThemes() {
+        return new ArrayList<Theme>(themes);
+    }
+
     public void setSelectedTheme(String name) {
         Theme foundTheme = findTheme(name);
         if(foundTheme != null) selectedTheme = foundTheme;
@@ -36,7 +40,7 @@ public class ThemeCollection {
 
     private Theme findTheme(String name) {
         for(Theme currTheme : themes) {
-            if(currTheme.getName().equals(name)) {
+            if(currTheme.getName().equals(name.toLowerCase())) {
                 return currTheme;
             }
         }

@@ -55,6 +55,10 @@ public class Theme {
         return name;
     }
 
+    public String getUppercaseName() {
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
+
     public Color getBackground() {
         return background;
     }
