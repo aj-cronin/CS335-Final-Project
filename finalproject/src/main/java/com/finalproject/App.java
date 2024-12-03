@@ -126,12 +126,13 @@ public class App extends Application {
     }
 
     private void showControls(Group root){
-        controlText = new Text("Move tiles\nwith WASD");
-        controlText.setX(50);
-        controlText.setY(300);
+        controlText = new Text("Move Tiles With WASD");
+        controlText.setX(20);
+        controlText.setY(620);
         controlText.setTextAlignment(TextAlignment.CENTER);
         controlText.setFill(selectedTheme.getSecondary());
-        controlText.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Bold.ttf", 30));
+        controlText.setOpacity(0.75);
+        controlText.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Regular.ttf", 20));
 
         root.getChildren().add(controlText);
     }
