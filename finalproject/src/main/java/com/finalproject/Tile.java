@@ -41,6 +41,7 @@ public class Tile{
     // combines two Tiles into one if they are equal, returns this new Tile
     public Tile combine(Tile other){
         if(this.equals(other)){
+            SoundEffects.playCombineSound();
             return new Tile(this.value * 2);
         }
         // return a different value?

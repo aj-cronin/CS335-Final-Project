@@ -14,6 +14,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -44,7 +46,6 @@ public class App extends Application {
     private Text controlText;
     private ThemeCollection myThemes;
     private Theme selectedTheme;
-    private int score;
     
     // the controller for the App
     private GameController controller;
@@ -58,7 +59,6 @@ public class App extends Application {
         // initializing the controller
         controller = new GameController();
         controller.start();
-        score = controller.getScore();
 
         stage.setTitle("2048");
         Group root = new Group();
@@ -69,34 +69,9 @@ public class App extends Application {
         controller.setBoardTheme(selectedTheme);
 
         scene = new Scene(root, 980, 640);
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent event){
-                if (!controller.isOver()){
-                    if (event.getCode().getName().equals("W")){
-                        SoundEffects.playMoveSound();
-                        controller.move(Enums.DIRECTION.UP);
-                        updateTiles(controller.getBoardList());
-                        updateScore(controller.isOver(), controller.getScore());
-                    } else if (event.getCode().getName().equals("S")){
-                        SoundEffects.playMoveSound();
-                        controller.move(Enums.DIRECTION.DOWN);
-                        updateTiles(controller.getBoardList());
-                        updateScore(controller.isOver(), controller.getScore());
-                    } else if (event.getCode().getName().equals("A")){
-                        SoundEffects.playMoveSound();
-                        controller.move(Enums.DIRECTION.LEFT);
-                        updateTiles(controller.getBoardList());
-                        updateScore(controller.isOver(), controller.getScore());
-                    } else if (event.getCode().getName().equals("D")){
-                        SoundEffects.playMoveSound();
-                        controller.move(Enums.DIRECTION.RIGHT);
-                        updateTiles(controller.getBoardList());
-                        updateScore(controller.isOver(), controller.getScore());
-                    }
-                }
-            }
-        });
+        
+        startKeyEvents(root, myLeaderboard);
+
         stage.setScene(scene);
 
         SoundEffects.playBackgroundMusic();
@@ -107,6 +82,44 @@ public class App extends Application {
         stage.show();
     }
 
+    private void startKeyEvents(Group root, Leaderboard lb){
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event){
+                if (!controller.isOver()){
+                    if (event.getCode().getName().equals("W")){
+                        SoundEffects.playMoveSound();
+                        controller.move(Enums.DIRECTION.UP);
+                        updateTiles(controller.getBoardList());
+                        updateScore(controller.isOver(), controller.getScore());
+                        SoundEffects.playNewTileSound();
+                    } else if (event.getCode().getName().equals("S")){
+                        SoundEffects.playMoveSound();
+                        controller.move(Enums.DIRECTION.DOWN);
+                        updateTiles(controller.getBoardList());
+                        updateScore(controller.isOver(), controller.getScore());
+                        SoundEffects.playNewTileSound();
+                    } else if (event.getCode().getName().equals("A")){
+                        SoundEffects.playMoveSound();
+                        controller.move(Enums.DIRECTION.LEFT);
+                        updateTiles(controller.getBoardList());
+                        updateScore(controller.isOver(), controller.getScore());
+                        SoundEffects.playNewTileSound();
+                    } else if (event.getCode().getName().equals("D")){
+                        SoundEffects.playMoveSound();
+                        controller.move(Enums.DIRECTION.RIGHT);
+                        updateTiles(controller.getBoardList());
+                        updateScore(controller.isOver(), controller.getScore());
+                        SoundEffects.playNewTileSound();
+                    }
+                } else {
+                    displayLeaderboard(root, lb);
+                    scene.removeEventFilter(KeyEvent.KEY_PRESSED, this);
+                }
+            }
+        });
+    }
+
     private void showEverything(Group root, Leaderboard lb) {
         scene.setFill(selectedTheme.getBackground());
         showTitle(root);
@@ -115,24 +128,24 @@ public class App extends Application {
         showLeaderboardButton(root, lb);
         showThemePicker(root, lb);
         showVolumeControl(root);
-        showScore(root, score);
-        showTiles(root);
+        showScore(root);
     }
 
     private void showControls(Group root){
-        controlText = new Text("Move tiles\nwith WASD");
-        controlText.setX(50);
-        controlText.setY(300);
+        controlText = new Text("Move Tiles With WASD");
+        controlText.setX(20);
+        controlText.setY(620);
         controlText.setTextAlignment(TextAlignment.CENTER);
         controlText.setFill(selectedTheme.getSecondary());
-        controlText.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Bold.ttf", 30));
+        controlText.setOpacity(0.75);
+        controlText.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Regular.ttf", 20));
 
         root.getChildren().add(controlText);
     }
 
-    private void showScore(Group root, int score) {
+    private void showScore(Group root) {
         // Creates text for score number.
-        scoreText = new Text("Current Score: " + score);
+        scoreText = new Text("Current Score: " + controller.getScore());
         scoreText.setX(430);
         scoreText.setY(93);
         scoreText.setTextAlignment(TextAlignment.CENTER);
@@ -174,18 +187,6 @@ public class App extends Application {
         });
 
         root.getChildren().add(themeBox);
-    }
-
-    private void showTiles(Group root) {
-        int yPos = 100;
-        for(int i = 0; i < 11; i++) {
-            Rectangle rect = new Rectangle(50, 30);
-            rect.setFill(selectedTheme.getColor(i));
-            rect.setX(800);
-            rect.setY(yPos);
-            yPos += 40;
-            root.getChildren().add(rect);
-        }
     }
 
     private void showVolumeControl(Group root) {
@@ -235,13 +236,51 @@ public class App extends Application {
 
     private void showLeaderboardButton(Group root, Leaderboard lb) {
         Button lbButton = new Button("Leaderboard");
-        lbButton.setLayoutX(120);
+        lbButton.setLayoutX(130);
         lbButton.setLayoutY(10);
         lbButton.setOnAction((e) -> {
-           displayLeaderboard(root, lb); 
+            root.getChildren().remove(lbButton);
+            displayLeaderboard(root, lb);
         });
 
         root.getChildren().add(lbButton);
+    }
+
+    private void displayEndOfGame(Group root, Leaderboard lb, Text lbText) {
+        TextField playerField = new TextField();
+        playerField.setLayoutX(400);
+        playerField.setLayoutY(500);
+
+        Button submitButton = new Button("Submit");
+        submitButton.setLayoutX(570);
+        submitButton.setLayoutY(500);
+
+        Button startOver = new Button("Start Over");
+            startOver.setLayoutX(400);
+            startOver.setLayoutY(500);
+
+        submitButton.setOnAction((e) -> {
+            lb.addPlayer(playerField.getText(), controller.getScore());
+            lb.writeToFile();
+            lbText.setText(lb.toString());
+            root.getChildren().remove(playerField);
+            root.getChildren().remove(submitButton);
+
+            root.getChildren().add(startOver);
+        });
+
+        startOver.setOnAction((e) -> {
+            controller = new GameController();
+            controller.start();
+            startKeyEvents(root, lb);
+            root.getChildren().clear();
+            board.getChildren().clear();
+            showEverything(root, lb);
+            updateTiles(controller.getBoardList());
+        });
+
+        root.getChildren().add(playerField);
+        root.getChildren().add(submitButton);
     }
 
     private void displayLeaderboard(Group root, Leaderboard lb) {
@@ -261,20 +300,30 @@ public class App extends Application {
         coverBoard.setY(100);
 
         Button exitButton = new Button("Close");
+        exitButton.setLayoutX(130);
+        exitButton.setLayoutY(10);
 
-        exitButton.setLayoutX(120);
-        exitButton.setLayoutY(45);
         exitButton.setOnAction((e) -> {
             root.getChildren().clear();
             board.getChildren().clear();
             showEverything(root, lb);
             updateTiles(controller.getBoardList());
         });
-
+        
         root.getChildren().add(coverBoard);
         root.getChildren().add(lbText);
         root.getChildren().add(exitButton);
 
+        if (controller.isOver()){
+            Rectangle coverButton = new Rectangle(200, 100);
+            coverButton.setFill(selectedTheme.getBackground());
+            coverButton.setX(125);
+            coverButton.setY(5);
+            displayEndOfGame(root, lb, lbText);
+            root.getChildren().add(coverButton);
+        }
+
+        
     }
 
     // creates an empty board of tiles and hashes each StackPane used as a tile to the gridMap
@@ -322,8 +371,8 @@ public class App extends Application {
                 // find the corresponding space on the gridpane
                 for(Node node: board.getChildren()){
                     // if the row and column correlate to the boardList item
-                    if((board.getRowIndex(node) != null) || (board.getColumnIndex(node) != null)){
-                        if(((board.getRowIndex(node) - start) == row) && ((board.getColumnIndex(node) - start - 25) == col)){
+                    if((GridPane.getRowIndex(node) != null) || (GridPane.getColumnIndex(node) != null)){
+                        if(((GridPane.getRowIndex(node) - start) == row) && ((GridPane.getColumnIndex(node) - start - 25) == col)){
                             // once the corresponding tile is found, set the style color
                             if(tmpTile == null){
                                 node.setStyle("-fx-background-color: #FFFFFF7F;");
