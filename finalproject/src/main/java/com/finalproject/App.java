@@ -54,7 +54,7 @@ public class App extends Application {
 
         Leaderboard myLeaderboard = new Leaderboard("finalproject/src/main/resources/data/leaderboard.csv");
         myThemes = new ThemeCollection("finalproject/src/main/resources/data/themes.csv");
-        myThemes.setSelectedTheme("dark");
+        myThemes.setSelectedTheme("underwater");
         selectedTheme = myThemes.getSelectedTheme();
         controller.setBoardTheme(selectedTheme);
 
@@ -180,7 +180,9 @@ public class App extends Application {
         exitButton.setLayoutY(45);
         exitButton.setOnAction((e) -> {
             root.getChildren().clear();
+            board.getChildren().clear();
             showEverything(root, lb);
+            updateTiles(controller.getBoardList());
         });
 
         root.getChildren().add(coverBoard);
@@ -264,7 +266,6 @@ public class App extends Application {
     // Returns
     private void setTileColor(Node node, Tile tmpTile){
         Color tileColor = tmpTile.getColor();
-        System.out.println(tileColor);
         node.setStyle(String.format("-fx-background-color: #%s;", tileColor.toString().substring(2,8)));
     }
     
