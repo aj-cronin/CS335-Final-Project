@@ -54,33 +54,37 @@ public class GameController {
                     // out of bounds
                     tmp = tmp || false;
                 } else {
-                    tmp = tmp || (this.board.getBoard().get(ii).get(jj - 1).combine(this.board.getBoard().get(ii).get(jj)) != null || this.board.getBoard().get(ii).get(jj - 1) == null);
+                    tmp = tmp || checkNextTo(0, -1, ii, jj);
                 }
                 // check right
                 if (jj == this.board.getBoard().get(ii).size() - 1){
                     // out of bounds
                     tmp = tmp || false;
                 } else {    
-                    tmp = tmp || (this.board.getBoard().get(ii).get(jj + 1).combine(this.board.getBoard().get(ii).get(jj)) != null || this.board.getBoard().get(ii).get(jj + 1) == null);
+                    tmp = tmp || checkNextTo(0, 1, ii, jj);
                 }
                 // check up
                 if (ii == 0){
                     // out of bounds
                     tmp = tmp || false;
                 } else {
-                    tmp = tmp || (this.board.getBoard().get(ii - 1).get(jj).combine(this.board.getBoard().get(ii).get(jj)) != null || this.board.getBoard().get(ii - 1).get(jj) == null);
+                    tmp = tmp || checkNextTo(-1, 0, ii, jj);
                 }
                 // check down
                 if (ii == this.board.getBoard().size() - 1){
                     // out of bounds
                     tmp = tmp || false;
                 } else {
-                    tmp = tmp || (this.board.getBoard().get(ii + 1).get(jj).combine(this.board.getBoard().get(ii).get(jj)) != null || this.board.getBoard().get(ii + 1).get(jj) == null);
+                    tmp = tmp || checkNextTo(1, 0, ii, jj);
                 }
                 canMove = canMove || tmp;
             }
         }
         return canMove;
+    }
+
+    private boolean checkNextTo(int y, int x, int ii, int jj){
+        return this.board.getBoard().get(ii + y).get(jj + x).combine(this.board.getBoard().get(ii).get(jj)) != null || this.board.getBoard().get(ii + y).get(jj + x) == null;
     }
 
     // Returns the "theme" of the game (the range of colors chosen).
