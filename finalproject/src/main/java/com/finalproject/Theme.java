@@ -1,6 +1,10 @@
 package com.finalproject;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class Theme {
@@ -11,12 +15,13 @@ public class Theme {
     Color background;
     Color secondary;
     Color text;
+    ImageView image;
 
     ArrayList<Color> tileColors;
 
     public Theme(String themeInfo) {
         String[] elements = themeInfo.trim().split(",");
-        if(elements.length == 6) {
+        if(elements.length == 6 || elements.length == 7) {
             name = elements[0];
             start = Color.web(elements[1]);
             end = Color.web(elements[2]);
@@ -25,6 +30,9 @@ public class Theme {
             text = Color.web(elements[5]);
             tileColors = new ArrayList<Color>();
             makeGradient();
+        }
+        if(elements.length == 7) {
+            image = new ImageView(new Image(new File(elements[6]).toURI().toString()));
         }
     }
 
@@ -69,6 +77,10 @@ public class Theme {
 
     public Color getText() {
         return text;
+    }
+
+    public ImageView getImage(){
+        return image;
     }
 
 }
