@@ -111,7 +111,9 @@ public class Board {
 				
 			}
 		}
-		this.addTile();
+		if (moved) {
+			this.addTile();
+		}
 		return moved;
 	}
 	
@@ -171,7 +173,9 @@ public class Board {
 				
 			}
 		}
-		this.addTile();
+		if (moved) {
+			this.addTile();
+		}
 		return moved;
 	}
 	
@@ -231,7 +235,9 @@ public class Board {
 				
 			}
 		}
-		this.addTile();
+		if (moved) {
+			this.addTile();
+		}
 		return moved;
 	}
 	
@@ -291,7 +297,9 @@ public class Board {
 				
 			}
 		}
-		this.addTile();
+		if (moved) {
+			this.addTile();
+		}
 		return moved;
 	}
 
