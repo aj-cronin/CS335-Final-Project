@@ -12,6 +12,7 @@ import javafx.scene.shape.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -232,13 +233,35 @@ public class App extends Application {
 
     private void showLeaderboardButton(Group root, Leaderboard lb) {
         Button lbButton = new Button("Leaderboard");
-        lbButton.setLayoutX(120);
+        lbButton.setLayoutX(130);
         lbButton.setLayoutY(10);
         lbButton.setOnAction((e) -> {
-           displayLeaderboard(root, lb); 
+            root.getChildren().remove(lbButton);
+            displayLeaderboard(root, lb);
+
         });
 
         root.getChildren().add(lbButton);
+    }
+
+    private void displayAddPlayer(Group root, Leaderboard lb, Text lbText) {
+        TextField playerField = new TextField();
+        playerField.setLayoutX(400);
+        playerField.setLayoutY(500);
+
+        Button submitButton = new Button("Submit");
+        submitButton.setLayoutX(570);
+        submitButton.setLayoutY(500);
+
+        submitButton.setOnAction((e) -> {
+            System.out.format("%s %d", playerField.getText(), controller.getScore());
+            lb.addPlayer(playerField.getText(), controller.getScore());
+            lb.writeToFile();
+            lbText.setText(lb.toString());
+        });
+
+        root.getChildren().add(playerField);
+        root.getChildren().add(submitButton);
     }
 
     private void displayLeaderboard(Group root, Leaderboard lb) {
@@ -258,20 +281,21 @@ public class App extends Application {
         coverBoard.setY(100);
 
         Button exitButton = new Button("Close");
+        exitButton.setLayoutX(130);
+        exitButton.setLayoutY(10);
 
-        exitButton.setLayoutX(120);
-        exitButton.setLayoutY(45);
         exitButton.setOnAction((e) -> {
             root.getChildren().clear();
             board.getChildren().clear();
             showEverything(root, lb);
             updateTiles(controller.getBoardList());
         });
-
+        
         root.getChildren().add(coverBoard);
         root.getChildren().add(lbText);
         root.getChildren().add(exitButton);
 
+        displayAddPlayer(root, lb, lbText);
     }
 
     // creates an empty board of tiles and hashes each StackPane used as a tile to the gridMap
