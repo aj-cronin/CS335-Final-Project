@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -23,9 +22,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javafx.event.EventHandler;
 
@@ -322,8 +319,8 @@ public class App extends Application {
                 // find the corresponding space on the gridpane
                 for(Node node: board.getChildren()){
                     // if the row and column correlate to the boardList item
-                    if((board.getRowIndex(node) != null) || (board.getColumnIndex(node) != null)){
-                        if(((board.getRowIndex(node) - start) == row) && ((board.getColumnIndex(node) - start - 25) == col)){
+                    if((GridPane.getRowIndex(node) != null) || (GridPane.getColumnIndex(node) != null)){
+                        if(((GridPane.getRowIndex(node) - start) == row) && ((GridPane.getColumnIndex(node) - start - 25) == col)){
                             // once the corresponding tile is found, set the style color
                             if(tmpTile == null){
                                 node.setStyle("-fx-background-color: #FFFFFF7F;");
