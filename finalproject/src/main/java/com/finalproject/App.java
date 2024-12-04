@@ -286,11 +286,13 @@ public class App extends Application {
         lbText.setX(400);
         lbText.setY(200);
 
-        Rectangle coverBoard = new Rectangle(500, 500);
+        Rectangle coverBoard = new Rectangle(452, 452);
+        coverBoard.setX(259);
+        coverBoard.setY(126);
         coverBoard.setFill(selectedTheme.getBackground());
         coverBoard.setOpacity(0.8);
-        coverBoard.setX(230);
-        coverBoard.setY(100);
+        coverBoard.setArcHeight(25);
+        coverBoard.setArcWidth(25);
 
         Button exitButton = new Button("Close");
         exitButton.setLayoutX(130);
