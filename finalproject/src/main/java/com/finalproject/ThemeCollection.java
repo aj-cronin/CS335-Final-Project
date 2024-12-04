@@ -1,5 +1,5 @@
 /**
- * Authors: AJ Cronin, Aidan Tucker, Brooke Stetson, Nathan Osborne
+ * Authors: Aidan Tucker, AJ Cronin, Brooke Stetson, Nathan Osborne
  * File: ThemeCollection.java
  * Purpose: Represents the collections of themes present in the game of 2048.
  * Takes a themes.csv file with information about all themes, and parses each line
@@ -37,7 +37,7 @@ public class ThemeCollection {
             System.out.format("%s not found, place it in the proper directory.\n", filename);
         }
     }
-    
+
     /**
      * @return selectedTheme
      */

@@ -1,5 +1,5 @@
 /**
- * Authors: AJ Cronin, Aidan Tucker, Brooke Stetson, Nathan Osborne
+ * Authors: Aidan Tucker, AJ Cronin, Brooke Stetson, Nathan Osborne
  * File: Theme.java
  * Purpose: Represents a theme for the Game 2048. A Theme object holds a name, 
  * a starting and ending tile color,background color, secondary color, text color, 

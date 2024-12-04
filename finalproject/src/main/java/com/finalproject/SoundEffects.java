@@ -1,5 +1,5 @@
 /**
- * Authors: AJ Cronin, Aidan Tucker, Brooke Stetson, Nathan Osborne
+ * Authors: Aidan Tucker, AJ Cronin, Brooke Stetson, Nathan Osborne
  * File: SoundEffects.java
  * Purpose: This is a class that has a lot of fields and methods that are static because we know that every time
  * we want to use sound effects, they will be the same. Every instance of SoundEffects would be the same

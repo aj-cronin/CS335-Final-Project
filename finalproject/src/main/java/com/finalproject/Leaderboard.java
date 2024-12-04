@@ -1,5 +1,5 @@
 /**
- * Authors: AJ Cronin, Aidan Tucker, Brooke Stetson, Nathan Osborne
+ * Authors: Aidan Tucker, AJ Cronin, Brooke Stetson, Nathan Osborne
  * File: Leaderboard.java
  * Purpose: Represents a Leaderboard for the game of 2048. When using, an object
  * is made containing information about the players and their scores based on a
