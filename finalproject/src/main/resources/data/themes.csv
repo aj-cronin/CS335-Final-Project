@@ -1,8 +1,9 @@
 name,hex1,hex2,background,secondary,text,backgroundimage
 light,d8c644,ff7575,FAF8F0,756452,FFFFFF
 dark,e5b92c,6e0d2d,282522,cdaa8b,FFFFFF
+grayscale,D8D8D8,000000,F7F7F7,444545,FFFFFF
 underwater,b4519e,112248,185178,72c273,FFFFFF,finalproject/src/main/resources/images/Bubbles.png
 lava,443838,f37221,e0632a,231f1e,FFFFFF,finalproject/src/main/resources/images/Rocks.png
 sunset,FEC20E,532A78,8D347D,FEE36C,FFFFFF,finalproject/src/main/resources/images/Skyline.png
 jungle,CBDE6E,243F1C,307339,9FD080,FFFFFF,finalproject/src/main/resources/images/Plants.png
-grayscale,D8D8D8,000000,F7F7F7,444545,FFFFFF
+blueprint,1B1651,B7E3F1,2D3187,9CACC6,FFFFFF,finalproject/src/main/resources/images/Tech.png
