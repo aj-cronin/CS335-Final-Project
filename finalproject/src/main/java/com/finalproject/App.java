@@ -311,9 +311,10 @@ public class App extends Application {
         submitButton.setLayoutY(500);
 
         Button startOver = new Button("Start Over");
-            startOver.setLayoutX(400);
-            startOver.setLayoutY(500);
+        startOver.setLayoutX(400);
+        startOver.setLayoutY(500);
 
+        // Inserts Leaderboard entry into Leaderboard (if in top 10)
         submitButton.setOnAction((e) -> {
             lb.addPlayer(playerField.getText(), controller.getScore());
             lb.writeToFile();
@@ -324,6 +325,7 @@ public class App extends Application {
             root.getChildren().add(startOver);
         });
 
+        // Restarts game
         startOver.setOnAction((e) -> {
             controller = new GameController();
             controller.start();
@@ -343,6 +345,7 @@ public class App extends Application {
      * @param lb - a Leaderboard that tracks the high scores of previous games
      */
     private void displayLeaderboard(Group root, Leaderboard lb) {
+        // Creates text for Leaderboard
         String lbString = lb.toString();
         Text lbText = new Text(lbString);
 
@@ -352,6 +355,7 @@ public class App extends Application {
         lbText.setX(400);
         lbText.setY(200);
 
+        // Covers game board behind Leaderboard
         Rectangle coverBoard = new Rectangle(452, 452);
         coverBoard.setX(259);
         coverBoard.setY(126);
@@ -364,6 +368,7 @@ public class App extends Application {
         exitButton.setLayoutX(130);
         exitButton.setLayoutY(10);
 
+        // Returns to game view
         exitButton.setOnAction((e) -> {
             root.getChildren().clear();
             board.getChildren().clear();
@@ -375,6 +380,7 @@ public class App extends Application {
         root.getChildren().add(lbText);
         root.getChildren().add(exitButton);
 
+        // Displays Leaderboard when game is over
         if (controller.isOver()){
             Rectangle coverButton = new Rectangle(200, 40);
             coverButton.setFill(selectedTheme.getBackground());
@@ -392,7 +398,7 @@ public class App extends Application {
      * @implNote creates an empty board of tiles and hashes each StackPane used as a tile to the gridMap
      */
     private void showBoard(Group root) {
-        // Add border behind tiles
+        // Creates border behind tiles
         Rectangle border = new Rectangle(450, 450);
         border.setX(260);
         border.setY(127);
@@ -400,13 +406,12 @@ public class App extends Application {
         border.setArcHeight(25);
         border.setArcWidth(25);
 
-        // creating a grid to emulate the board and centering it
+        // Creates the game board
         board.setAlignment(Pos.CENTER);
         board.setHgap(5);
         board.setVgap(5); 
         board.setPadding(new Insets(20, 28, 20, 28));
 
-        // fill in 
         double tileSize = 100;
         
         for (int row = start; row < boardX; row++) {
@@ -414,9 +419,9 @@ public class App extends Application {
                 StackPane tile = new StackPane();
                 tile.setMinSize(tileSize, tileSize);
                 tile.setPrefSize(tileSize, tileSize);
-                // set the default color to black, indicating no tile is currently there
+                // Sets the default color to black, indicating no tile is currently there
                 tile.setStyle("-fx-background-color: #FFFFFF7F;");
-                // Add the tile to the GridPane
+                // Adds new tile to the GridPane
                 board.add(tile, col, row);
             }
         }
