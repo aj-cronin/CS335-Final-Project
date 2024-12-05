@@ -371,8 +371,8 @@ public class Board {
 
 		// finding an empty space on the game baord
 		while(this.board.get(y).get(x) != null){
-			x = (int) Math.floor(Math.random() * (this.boardX));
-			y = (int) Math.floor(Math.random() * (this.boardY));
+			x = (int) Math.floor(random.nextDouble() * (this.boardX));
+			y = (int) Math.floor(random.nextDouble() * (this.boardY));
 		}
 
 		// determines whether a 2 tile or a 4 tile is added, lower chance of adding a 4 tile
