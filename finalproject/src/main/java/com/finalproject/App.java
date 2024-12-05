@@ -105,29 +105,32 @@ public class App extends Application {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event){
+                // if game is still going: read keyboard input (WASD)
                 if (!controller.isOver()){
                     if (event.getCode().getName().equals("W")){
                         controller.move(Enums.DIRECTION.UP);
                         updateTiles(controller.getBoardList());
-                        updateScore(controller.isOver(), controller.getScore());
+                        updateScore();
                         SoundEffects.playNewTileSound();
                     } else if (event.getCode().getName().equals("S")){
                         controller.move(Enums.DIRECTION.DOWN);
                         updateTiles(controller.getBoardList());
-                        updateScore(controller.isOver(), controller.getScore());
+                        updateScore();
                         SoundEffects.playNewTileSound();
                     } else if (event.getCode().getName().equals("A")){
                         controller.move(Enums.DIRECTION.LEFT);
                         updateTiles(controller.getBoardList());
-                        updateScore(controller.isOver(), controller.getScore());
+                        updateScore();
                         SoundEffects.playNewTileSound();
                     } else if (event.getCode().getName().equals("D")){
                         controller.move(Enums.DIRECTION.RIGHT);
                         updateTiles(controller.getBoardList());
-                        updateScore(controller.isOver(), controller.getScore());
+                        updateScore();
                         SoundEffects.playNewTileSound();
                     }
-                } else {
+                }
+                // if game is over: add new entry to leaderboard
+                else {
                     displayLeaderboard(root, lb);
                     scene.removeEventFilter(KeyEvent.KEY_PRESSED, this);
                 }
@@ -155,6 +158,7 @@ public class App extends Application {
      * @param root - a Group whose contents are the scenes accessed by the GUI
      */
     private void showControls(Group root){
+        // Creates text for controls instruction
         controlText = new Text("Move Tiles With WASD");
         controlText.setX(20);
         controlText.setY(620);
@@ -181,16 +185,13 @@ public class App extends Application {
         root.getChildren().add(scoreText);
     }
 
-    /**
-     * @param isOver - a boolean that is true if the game is over
-     * @param score - an int representing the current score of the game
-     */
-    private void updateScore(boolean isOver, int score) {
-        if (isOver) {
-            scoreText.setText("Final Score: " + score + "!");
+    private void updateScore() {
+        // Bolds final message when game is over
+        if (controller.isOver()) {
+            scoreText.setText("Final Score: " + controller.getScore() + "!");
             scoreText.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Bold.ttf", 20));
         } else {
-            scoreText.setText("Current Score: " + score);
+            scoreText.setText("Current Score: " + controller.getScore());
         }
     }
 
@@ -203,11 +204,13 @@ public class App extends Application {
         for(Theme theme: myThemes.getThemes()) {
             options.add((theme.getUppercaseName()));
         }
+        // Creates drop down menu for theme options
         ComboBox<String> themeBox = new ComboBox<String>(options);
         themeBox.setLayoutX(10);
         themeBox.setLayoutY(10);
         themeBox.setPromptText(selectedTheme.getUppercaseName());
 
+        // Selecting a new theme
         themeBox.setOnAction((e) -> {
             if(themeBox.getValue() != null) {
                 myThemes.setSelectedTheme("" + themeBox.getValue());
@@ -265,6 +268,7 @@ public class App extends Application {
      * @param root - a Group whose contents are the scenes accessed by the GUI
      */
     private void showTitle(Group root) {
+        // Creates text for title
         Text title = new Text("2048");
         title.setX(430);
         title.setY(60);
@@ -279,6 +283,7 @@ public class App extends Application {
      * @param lb - a Leaderboard that tracks the high scores of previous games
      */
     private void showLeaderboardButton(Group root, Leaderboard lb) {
+        // Creates button to access Leaderboard
         Button lbButton = new Button("Leaderboard");
         lbButton.setLayoutX(130);
         lbButton.setLayoutY(10);
@@ -296,6 +301,7 @@ public class App extends Application {
      * @param lbText - a Text scene that will display the information in lb
      */
     private void displayEndOfGame(Group root, Leaderboard lb, Text lbText) {
+        // Creates textfield to input new Leaderboard entry
         TextField playerField = new TextField();
         playerField.setLayoutX(400);
         playerField.setLayoutY(500);
