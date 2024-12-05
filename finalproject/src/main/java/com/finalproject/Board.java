@@ -12,6 +12,7 @@
 package com.finalproject;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Represents the a game board of size four by four with tiles that populate the
@@ -31,6 +32,8 @@ public class Board {
 	private int highest;
 	// adding the ability to change the color and design of the board
 	private Theme theme;
+	// For setting the seed for testing purposes.
+	private Random random;
 	
 	/**
 	 * the constructor, sets up the neccessary variables used throughout the class
@@ -53,6 +56,7 @@ public class Board {
 			}
 			board.add(row);
 		}
+		random = new Random();
 	}
 	
 	/**
@@ -362,8 +366,8 @@ public class Board {
 	 * adding a 4 tile as opposed to a 2 tile
 	 */
 	public void addTile(){
-		int x = (int) Math.floor(Math.random() * (this.boardX));
-		int y = (int) Math.floor(Math.random() * (this.boardY));
+		int x = (int) Math.floor(random.nextDouble() * (this.boardX));
+		int y = (int) Math.floor(random.nextDouble() * (this.boardY));
 
 		// finding an empty space on the game baord
 		while(this.board.get(y).get(x) != null){
@@ -454,4 +458,7 @@ public class Board {
 		return out;
 	}
 	
+	public void setRandomSeed(long seed) {
+		random.setSeed(seed);
+	}
 }
