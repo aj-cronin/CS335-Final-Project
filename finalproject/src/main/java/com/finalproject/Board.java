@@ -376,7 +376,7 @@ public class Board {
 		}
 
 		// determines whether a 2 tile or a 4 tile is added, lower chance of adding a 4 tile
-		double chanceOf4 = Math.random();
+		double chanceOf4 = random.nextDouble();
 		if (chanceOf4 >= 0.9){
 			this.board.get(y).set(x, new Tile(4, theme));
 		} else {
