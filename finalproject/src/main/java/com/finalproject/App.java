@@ -1,4 +1,18 @@
-package com.finalproject;
+/**
+ * Authors: Aidan Tucker, AJ Cronin, Brooke Stetson, Nathan Osborne
+ * File: App.java
+ * Purpose: Represents a GUI application for the game of 2048. When using, a GUI
+ * is generated through JavaFX representing the 2048 board visually. The class
+ * has the ability to initialize and launch a GUI (which includes a game board
+ * grid of numbered or blank tiles, a button to view the leaderboard, a drop down
+ * of color theme options to change the visual appearance of the GUI, and an
+ * interactable slider to change the volume of the background music), read user
+ * inputs (WASD) and change the board accordingly, display the current score of
+ * the given game, and add the player's score to the leaderboard once the game
+ * is complete, with an option to restart the game.
+ */
+
+ package com.finalproject;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -50,15 +64,20 @@ public class App extends Application {
         launch();
     }
     
+    /**
+     * @param stage - a Stage in which the GUI is constructed
+     */
     @Override
     public void start(Stage stage) throws IOException {
         // initializing the controller
         controller = new GameController();
         controller.start();
 
+        // set title and initialize primary scene Group
         stage.setTitle("2048");
         Group root = new Group();
 
+        // initialize leaderboard and theme collection
         Leaderboard myLeaderboard = new Leaderboard("finalproject/src/main/resources/data/leaderboard.csv");
         myThemes = new ThemeCollection("finalproject/src/main/resources/data/themes.csv");
         selectedTheme = myThemes.getSelectedTheme();
@@ -78,6 +97,10 @@ public class App extends Application {
         stage.show();
     }
 
+    /**
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @param lb - a Leaderboard that tracks the high scores of previous games
+     */
     private void startKeyEvents(Group root, Leaderboard lb){
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>(){
             @Override
@@ -112,6 +135,10 @@ public class App extends Application {
         });
     }
 
+    /**
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @param lb - a Leaderboard that tracks the high scores of previous games
+     */
     private void showEverything(Group root, Leaderboard lb) {
         scene.setFill(selectedTheme.getBackground());
         if(selectedTheme.getImage() != null) root.getChildren().add(selectedTheme.getImage());
@@ -124,6 +151,9 @@ public class App extends Application {
         showScore(root);
     }
 
+    /**
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     */
     private void showControls(Group root){
         controlText = new Text("Move Tiles With WASD");
         controlText.setX(20);
@@ -136,6 +166,9 @@ public class App extends Application {
         root.getChildren().add(controlText);
     }
 
+    /**
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     */
     private void showScore(Group root) {
         // Creates text for score number.
         scoreText = new Text("Current Score: " + controller.getScore());
@@ -148,6 +181,10 @@ public class App extends Application {
         root.getChildren().add(scoreText);
     }
 
+    /**
+     * @param isOver - a boolean that is true if the game is over
+     * @param score - an int representing the current score of the game
+     */
     private void updateScore(boolean isOver, int score) {
         if (isOver) {
             scoreText.setText("Final Score: " + score + "!");
@@ -157,6 +194,10 @@ public class App extends Application {
         }
     }
 
+    /**
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @param lb - a Leaderboard that tracks the high scores of previous games
+     */
     private void showThemePicker(Group root, Leaderboard lb) {
         ObservableList<String> options = FXCollections.observableArrayList();
         for(Theme theme: myThemes.getThemes()) {
@@ -182,6 +223,9 @@ public class App extends Application {
         root.getChildren().add(themeBox);
     }
 
+    /**
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     */
     private void showVolumeControl(Group root) {
         // Easy Values for Quick Changes to the whole group.
         int XOFFSET = 50;
@@ -217,6 +261,9 @@ public class App extends Application {
         root.getChildren().add(volumeNumber);
     }
 
+    /**
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     */
     private void showTitle(Group root) {
         Text title = new Text("2048");
         title.setX(430);
@@ -227,6 +274,10 @@ public class App extends Application {
         root.getChildren().add(title);
     }
 
+    /**
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @param lb - a Leaderboard that tracks the high scores of previous games
+     */
     private void showLeaderboardButton(Group root, Leaderboard lb) {
         Button lbButton = new Button("Leaderboard");
         lbButton.setLayoutX(130);
@@ -239,6 +290,11 @@ public class App extends Application {
         root.getChildren().add(lbButton);
     }
 
+    /**
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @param lb - a Leaderboard that tracks the high scores of previous games
+     * @param lbText - a Text scene that will display the information in lb
+     */
     private void displayEndOfGame(Group root, Leaderboard lb, Text lbText) {
         TextField playerField = new TextField();
         playerField.setLayoutX(400);
@@ -276,6 +332,10 @@ public class App extends Application {
         root.getChildren().add(submitButton);
     }
 
+    /**
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @param lb - a Leaderboard that tracks the high scores of previous games
+     */
     private void displayLeaderboard(Group root, Leaderboard lb) {
         String lbString = lb.toString();
         Text lbText = new Text(lbString);
@@ -321,7 +381,10 @@ public class App extends Application {
         
     }
 
-    // creates an empty board of tiles and hashes each StackPane used as a tile to the gridMap
+    /**
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @implNote creates an empty board of tiles and hashes each StackPane used as a tile to the gridMap
+     */
     private void showBoard(Group root) {
         // Add border behind tiles
         Rectangle border = new Rectangle(450, 450);
@@ -357,7 +420,9 @@ public class App extends Application {
     }
     
 
-    // Takes in the current boardList in which the tiles for the game are stored
+    /**
+     * @param boardList - a 2D-ArrayList of Tiles in which the tiles for the game are stored
+     */
     public void updateTiles(ArrayList<ArrayList<Tile>> boardList){
         // iterate through the boardList of the tiles
         for(int row = 0; row < boardList.size(); row ++){
@@ -408,8 +473,10 @@ public class App extends Application {
         }
     }
 
-    // Takes a node from the GridPane representing a Tile
-    // Returns
+    /**
+     * @param node - a Node from the GridPane representing a Tile
+     * @param tmpTile - a temporary Tile used to change the color of node
+     */
     private void setTileColor(Node node, Tile tmpTile){
         tmpTile.setTheme(selectedTheme);
         Color tileColor = tmpTile.getColor();
