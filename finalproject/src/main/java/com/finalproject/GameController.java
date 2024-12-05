@@ -139,6 +139,8 @@ public class GameController {
         return this.board.getTheme();
     }
 
-    
+    public void setRandomSeed(long seed){
+        board.setRandomSeed(seed);
+    }
 
 }
