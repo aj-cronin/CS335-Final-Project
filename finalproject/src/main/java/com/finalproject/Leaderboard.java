@@ -1,3 +1,12 @@
+/**
+ * Authors: Aidan Tucker, AJ Cronin, Brooke Stetson, Nathan Osborne
+ * File: Leaderboard.java
+ * Purpose: Represents a Leaderboard for the game of 2048. When using, an object
+ * is made containing information about the players and their scores based on a
+ * csv file input. The class has the ability to get the players, scores, and write
+ * back to the file the object is based on.
+ */
+
 package com.finalproject;
 
 import java.util.ArrayList;
@@ -10,10 +19,13 @@ import java.io.FileNotFoundException;
 
 public class Leaderboard {
     
-    ArrayList<HashMap<String,Integer>> players;
-    int size;
-    String filename;
+    private ArrayList<HashMap<String,Integer>> players;
+    private int size;
+    private String filename;
 
+    /**
+     * @param filename - a String that is the name of the leaderboard file being used.
+     */
     public Leaderboard(String filename) {
         // Initialize our collection of players.
         // Array of HashMaps so that we can have an ordered collection with multiple values.
@@ -32,17 +44,24 @@ public class Leaderboard {
                 i++;
             }
             lbScanner.close();
-            
+            // We want to catch our possible exceptions of the file either not existing or holding invalid data.
         } catch (FileNotFoundException e) {
             System.out.format("%s not found, place it in the proper directory.\n", filename);
         } catch (NumberFormatException e) {
             System.out.format("%s contains score that is not a number.\n", filename);
         }
 
+        // Store the size and name for easy writeback later.
         size = players.size();
         this.filename = filename;
     }
 
+    /**
+     * addPlayer(name, score) -- adds a player to the leaderboard.
+     * 
+     * @param name - String for the name of the player being added to the leaderboard
+     * @param score - The score of the player being added to the leaderboard
+     */
     public void addPlayer(String name, int score) {
         HashMap<String,Integer> newPlayer = new HashMap<String,Integer>();
         newPlayer.put(name, score);
@@ -55,12 +74,18 @@ public class Leaderboard {
             }
         }
 
+        // If the new player doesn't beat any previous players 
+        //and our list is small enough, we just add it to the end.
         if(size < 10){
             players.add(newPlayer); 
             size++;
         } 
     }
 
+    /**
+     * writeToFile() -- Takes the current leaderboard and writes back the info the leaderboard file so
+     * that the new players can be found in future runs of the game.
+     */
     public void writeToFile() {
         try{
             FileWriter writer = new FileWriter(filename);
@@ -70,6 +95,7 @@ public class Leaderboard {
             }
             writer.write(result);
             writer.close();
+        // Catch the exceptions when the file may not exist or cannot be written to for some reason.
         } catch (FileNotFoundException e) {
             System.out.format("%s not found, place it in the proper directory.\n", filename);
         } catch (IOException e) {
@@ -77,11 +103,9 @@ public class Leaderboard {
         }
     }
 
-    public ArrayList<HashMap<String,Integer>> getLeaderboard() {
-        // Return copy of the list
-        return new ArrayList<HashMap<String,Integer>>(players);
-    }
-
+    /**
+     * toString() -- returns string representation of leaderboard.
+     */
     public String toString() {
         String result = "";
         for(int i = 0; i < size; i++) {
@@ -90,10 +114,19 @@ public class Leaderboard {
         return result.trim();
     }
 
+    
+    /**
+     * @param index -- index of the player's name you want to get.
+     * @return the name of the player at a specific index
+     */
     public String getPlayerName(int index) {
         return players.get(index).keySet().iterator().next();
     }
 
+    /**
+     * @param index -- index of the player's score you want to get.
+     * @return the score of the player at a specific index
+     */
     public int getPlayerScore(int index) {
         return players.get(index).values().iterator().next();
     }

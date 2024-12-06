@@ -1,4 +1,18 @@
-package com.finalproject;
+/**
+ * Authors: Aidan Tucker, AJ Cronin, Brooke Stetson, Nathan Osborne
+ * File: App.java
+ * Purpose: Represents a GUI application for the game of 2048. When using, a GUI
+ * is generated through JavaFX representing the 2048 board visually. The class
+ * has the ability to initialize and launch a GUI (which includes a game board
+ * grid of numbered or blank tiles, a button to view the leaderboard, a drop down
+ * of color theme options to change the visual appearance of the GUI, and an
+ * interactable slider to change the volume of the background music), read user
+ * inputs (WASD) and change the board accordingly, display the current score of
+ * the given game, and add the player's score to the leaderboard once the game
+ * is complete, with an option to restart the game.
+ */
+
+ package com.finalproject;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -50,15 +64,21 @@ public class App extends Application {
         launch();
     }
     
+    /**
+     * Initializes the GUI stage and scenes
+     * @param stage - a Stage in which the GUI is constructed
+     */
     @Override
     public void start(Stage stage) throws IOException {
         // initializing the controller
         controller = new GameController();
         controller.start();
 
+        // set title and initialize primary scene Group
         stage.setTitle("2048");
         Group root = new Group();
 
+        // initialize leaderboard and theme collection
         Leaderboard myLeaderboard = new Leaderboard("finalproject/src/main/resources/data/leaderboard.csv");
         myThemes = new ThemeCollection("finalproject/src/main/resources/data/themes.csv");
         selectedTheme = myThemes.getSelectedTheme();
@@ -78,33 +98,41 @@ public class App extends Application {
         stage.show();
     }
 
+    /**
+     * Starts and handles key events (such as WASD movements and interaction with the GUI)
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @param lb - a Leaderboard that tracks the high scores of previous games
+     */
     private void startKeyEvents(Group root, Leaderboard lb){
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event){
+                // if game is still going: read keyboard input (WASD)
                 if (!controller.isOver()){
                     if (event.getCode().getName().equals("W")){
                         controller.move(Enums.DIRECTION.UP);
                         updateTiles(controller.getBoardList());
-                        updateScore(controller.isOver(), controller.getScore());
+                        updateScore();
                         SoundEffects.playNewTileSound();
                     } else if (event.getCode().getName().equals("S")){
                         controller.move(Enums.DIRECTION.DOWN);
                         updateTiles(controller.getBoardList());
-                        updateScore(controller.isOver(), controller.getScore());
+                        updateScore();
                         SoundEffects.playNewTileSound();
                     } else if (event.getCode().getName().equals("A")){
                         controller.move(Enums.DIRECTION.LEFT);
                         updateTiles(controller.getBoardList());
-                        updateScore(controller.isOver(), controller.getScore());
+                        updateScore();
                         SoundEffects.playNewTileSound();
                     } else if (event.getCode().getName().equals("D")){
                         controller.move(Enums.DIRECTION.RIGHT);
                         updateTiles(controller.getBoardList());
-                        updateScore(controller.isOver(), controller.getScore());
+                        updateScore();
                         SoundEffects.playNewTileSound();
                     }
-                } else {
+                }
+                // if game is over: add new entry to leaderboard
+                else {
                     displayLeaderboard(root, lb);
                     scene.removeEventFilter(KeyEvent.KEY_PRESSED, this);
                 }
@@ -112,6 +140,11 @@ public class App extends Application {
         });
     }
 
+    /**
+     * Initiates each of the scenes in the stage
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @param lb - a Leaderboard that tracks the high scores of previous games
+     */
     private void showEverything(Group root, Leaderboard lb) {
         scene.setFill(selectedTheme.getBackground());
         if(selectedTheme.getImage() != null) root.getChildren().add(selectedTheme.getImage());
@@ -124,7 +157,12 @@ public class App extends Application {
         showScore(root);
     }
 
+    /**
+     * Initiates the instruction text for how to move the tiles
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     */
     private void showControls(Group root){
+        // Creates text for controls instruction
         controlText = new Text("Move Tiles With WASD");
         controlText.setX(20);
         controlText.setY(620);
@@ -136,6 +174,10 @@ public class App extends Application {
         root.getChildren().add(controlText);
     }
 
+    /**
+     * Initiates the current score text for the GUI
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     */
     private void showScore(Group root) {
         // Creates text for score number.
         scoreText = new Text("Current Score: " + controller.getScore());
@@ -148,25 +190,36 @@ public class App extends Application {
         root.getChildren().add(scoreText);
     }
 
-    private void updateScore(boolean isOver, int score) {
-        if (isOver) {
-            scoreText.setText("Final Score: " + score + "!");
+    /**
+     * Updates the score text
+     */
+    private void updateScore() {
+        // Bolds final message when game is over
+        if (controller.isOver()) {
+            scoreText.setText("Final Score: " + controller.getScore() + "!");
             scoreText.setFont(Font.loadFont("file:FinalProject/src/main/resources/fonts/ClearSans-Bold.ttf", 20));
         } else {
-            scoreText.setText("Current Score: " + score);
+            scoreText.setText("Current Score: " + controller.getScore());
         }
     }
 
+    /**
+     * Initiates the dropdown styled menu for picking the theme
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @param lb - a Leaderboard that tracks the high scores of previous games
+     */
     private void showThemePicker(Group root, Leaderboard lb) {
         ObservableList<String> options = FXCollections.observableArrayList();
         for(Theme theme: myThemes.getThemes()) {
             options.add((theme.getUppercaseName()));
         }
+        // Creates drop down menu for theme options
         ComboBox<String> themeBox = new ComboBox<String>(options);
         themeBox.setLayoutX(10);
         themeBox.setLayoutY(10);
         themeBox.setPromptText(selectedTheme.getUppercaseName());
 
+        // Selecting a new theme
         themeBox.setOnAction((e) -> {
             if(themeBox.getValue() != null) {
                 myThemes.setSelectedTheme("" + themeBox.getValue());
@@ -182,6 +235,10 @@ public class App extends Application {
         root.getChildren().add(themeBox);
     }
 
+    /**
+     * Initiates the volume slider
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     */
     private void showVolumeControl(Group root) {
         // Easy Values for Quick Changes to the whole group.
         int XOFFSET = 50;
@@ -217,7 +274,12 @@ public class App extends Application {
         root.getChildren().add(volumeNumber);
     }
 
+    /**
+     * Initiates the title text
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     */
     private void showTitle(Group root) {
+        // Creates text for title
         Text title = new Text("2048");
         title.setX(430);
         title.setY(60);
@@ -227,7 +289,13 @@ public class App extends Application {
         root.getChildren().add(title);
     }
 
+    /**
+     * Initiates the button to view the Leaderboard midgame
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @param lb - a Leaderboard that tracks the high scores of previous games
+     */
     private void showLeaderboardButton(Group root, Leaderboard lb) {
+        // Creates button to access Leaderboard
         Button lbButton = new Button("Leaderboard");
         lbButton.setLayoutX(130);
         lbButton.setLayoutY(10);
@@ -239,7 +307,15 @@ public class App extends Application {
         root.getChildren().add(lbButton);
     }
 
+    /**
+     * Initiates the Leaderboard submission text field and the button to
+     * restart the game after the end of the game
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @param lb - a Leaderboard that tracks the high scores of previous games
+     * @param lbText - a Text scene that will display the information in lb
+     */
     private void displayEndOfGame(Group root, Leaderboard lb, Text lbText) {
+        // Creates textfield to input new Leaderboard entry
         TextField playerField = new TextField();
         playerField.setLayoutX(400);
         playerField.setLayoutY(500);
@@ -249,9 +325,10 @@ public class App extends Application {
         submitButton.setLayoutY(500);
 
         Button startOver = new Button("Start Over");
-            startOver.setLayoutX(400);
-            startOver.setLayoutY(500);
+        startOver.setLayoutX(400);
+        startOver.setLayoutY(500);
 
+        // Inserts Leaderboard entry into Leaderboard (if in top 10)
         submitButton.setOnAction((e) -> {
             lb.addPlayer(playerField.getText(), controller.getScore());
             lb.writeToFile();
@@ -262,6 +339,7 @@ public class App extends Application {
             root.getChildren().add(startOver);
         });
 
+        // Restarts game
         startOver.setOnAction((e) -> {
             controller = new GameController();
             controller.start();
@@ -276,7 +354,15 @@ public class App extends Application {
         root.getChildren().add(submitButton);
     }
 
+    /**
+     * Shows the Leaderboard text against an overlay covering the game board,
+     * both accessible by button midgame and automatically at the end of the
+     * game with the option to be put on the leaderboard
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @param lb - a Leaderboard that tracks the high scores of previous games
+     */
     private void displayLeaderboard(Group root, Leaderboard lb) {
+        // Creates text for Leaderboard
         String lbString = lb.toString();
         Text lbText = new Text(lbString);
 
@@ -286,16 +372,20 @@ public class App extends Application {
         lbText.setX(400);
         lbText.setY(200);
 
-        Rectangle coverBoard = new Rectangle(500, 500);
+        // Covers game board behind Leaderboard
+        Rectangle coverBoard = new Rectangle(452, 452);
+        coverBoard.setX(259);
+        coverBoard.setY(126);
         coverBoard.setFill(selectedTheme.getBackground());
         coverBoard.setOpacity(0.8);
-        coverBoard.setX(230);
-        coverBoard.setY(100);
+        coverBoard.setArcHeight(25);
+        coverBoard.setArcWidth(25);
 
         Button exitButton = new Button("Close");
         exitButton.setLayoutX(130);
         exitButton.setLayoutY(10);
 
+        // Returns to game view
         exitButton.setOnAction((e) -> {
             root.getChildren().clear();
             board.getChildren().clear();
@@ -307,6 +397,7 @@ public class App extends Application {
         root.getChildren().add(lbText);
         root.getChildren().add(exitButton);
 
+        // Displays Leaderboard when game is over
         if (controller.isOver()){
             Rectangle coverButton = new Rectangle(200, 40);
             coverButton.setFill(selectedTheme.getBackground());
@@ -319,9 +410,13 @@ public class App extends Application {
         
     }
 
-    // creates an empty board of tiles and hashes each StackPane used as a tile to the gridMap
+    /**
+     * Initiates the game board and its tiles
+     * @param root - a Group whose contents are the scenes accessed by the GUI
+     * @implNote creates an empty board of tiles and hashes each StackPane used as a tile to the gridMap
+     */
     private void showBoard(Group root) {
-        // Add border behind tiles
+        // Creates border behind tiles
         Rectangle border = new Rectangle(450, 450);
         border.setX(260);
         border.setY(127);
@@ -329,13 +424,12 @@ public class App extends Application {
         border.setArcHeight(25);
         border.setArcWidth(25);
 
-        // creating a grid to emulate the board and centering it
+        // Creates the game board
         board.setAlignment(Pos.CENTER);
         board.setHgap(5);
         board.setVgap(5); 
         board.setPadding(new Insets(20, 28, 20, 28));
 
-        // fill in 
         double tileSize = 100;
         
         for (int row = start; row < boardX; row++) {
@@ -343,9 +437,9 @@ public class App extends Application {
                 StackPane tile = new StackPane();
                 tile.setMinSize(tileSize, tileSize);
                 tile.setPrefSize(tileSize, tileSize);
-                // set the default color to black, indicating no tile is currently there
+                // Sets the default color to black, indicating no tile is currently there
                 tile.setStyle("-fx-background-color: #FFFFFF7F;");
-                // Add the tile to the GridPane
+                // Adds new tile to the GridPane
                 board.add(tile, col, row);
             }
         }
@@ -355,7 +449,10 @@ public class App extends Application {
     }
     
 
-    // Takes in the current boardList in which the tiles for the game are stored
+    /**
+     * Updates the positions of the tiles
+     * @param boardList - a 2D-ArrayList of Tiles in which the tiles for the game are stored
+     */
     public void updateTiles(ArrayList<ArrayList<Tile>> boardList){
         // iterate through the boardList of the tiles
         for(int row = 0; row < boardList.size(); row ++){
@@ -406,8 +503,12 @@ public class App extends Application {
         }
     }
 
-    // Takes a node from the GridPane representing a Tile
-    // Returns
+    /**
+     * Sets the color of a single tile on the game board based on the
+     * set theme
+     * @param node - a Node from the GridPane representing a Tile
+     * @param tmpTile - a temporary Tile used to change the color of node
+     */
     private void setTileColor(Node node, Tile tmpTile){
         tmpTile.setTheme(selectedTheme);
         Color tileColor = tmpTile.getColor();

@@ -1,18 +1,43 @@
+/**
+ * @authors Aidan Tucker, AJ Cronin, Brooke Stetson, Nathan Osborne
+ * @file Board.java
+ * @purpose Emulates the board used within the 2048 game with a board of size four
+ * by four. Represents the board in a 2-d ArrayList with the rows being the nested
+ * lists. Has the functionality of moving right, left, up, and down using an Enum
+ * to represent the movements as well as stores the score as movements are made as
+ * it cannot be calculated from the board alone. This class also stores the current
+ * "theme" of the game to change the colors and design of the UI.
+ */
+
 package com.finalproject;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+/**
+ * Represents the a game board of size four by four with tiles that populate the
+ * board with movements available of left, right, up, and down. Has a "theme" feature
+ * that allows for design changes.
+ */
 public class Board {
 	
+	// the 2-d board used for the game
 	private ArrayList<ArrayList<Tile>> board;
+	// the height of the board to allow for future implementaiton of a dynamically sized board
 	private int boardX;
 	private int boardY;
+	// stores the score since it cannot be calculated soley with the information stored
 	private int score;
 	private int tileNum;
 	private int highest;
-	// adding the ability to change the color theme
+	// adding the ability to change the color and design of the board
 	private Theme theme;
+	// For setting the seed for testing purposes.
+	private Random random;
 	
+	/**
+	 * the constructor, sets up the neccessary variables used throughout the class
+	 */
 	public Board() {
 		this.tileNum = 0;
 		this.score = 0;
@@ -22,7 +47,7 @@ public class Board {
 		this.highest = 4;
 		// sets the default "theme" (the color of the tiles) to BASIC
 		this.theme = new Theme("light,d8c644,ff7575,FAF8F0,756452,FFFFFF");
-		// "inicialize" (as spelled by Nathan) board to a certain size
+		// creating the intiial 2-d board
 		this.board = new ArrayList<ArrayList<Tile>>();
 		for(int ii = 0; ii < 4; ii++) {
 			ArrayList<Tile> row = new ArrayList<Tile>();
@@ -31,13 +56,22 @@ public class Board {
 			}
 			board.add(row);
 		}
+		random = new Random();
 	}
 	
+	/**
+	 * Retrieves the game board
+	 * @return ArrayList<ArrayList<Tile>> that represents the game board in a 2-d structure 
+	 */
 	public ArrayList<ArrayList<Tile>> getBoard() {
-		// make a copy
+		// make a copy to avoid an escaping reference
 		return new ArrayList<ArrayList<Tile>>(this.board);
 	}
 	
+	/**
+	 * Creates a move for the pieces on the game board in the indicated direction
+     * @param direction - an enum DIRECTION to indicate how to move
+     */
 	public void move(Enums.DIRECTION direction) {
 		switch (direction) {
 		case LEFT:
@@ -55,10 +89,15 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Moves the game board tiles left where possible, combining tiles if applicable
+	 * @return boolean - true if a move was able to be made and false if a move was
+	 * unable to be made due to a lack of combinations able to be made or a lack of tiles
+	 */
 	private boolean moveLeft() {
 		boolean moved = false;
 		for (int ii = 0; ii < this.boardY; ii++){
-			// whether or no the tile before this was merged(to prevent excess merging)
+			// whether or not the tile before this was merged(to prevent excess merging)
 			boolean combined = false;
 			for (int jj = 1; jj < this.boardX; jj++){
 				// empty space
@@ -111,16 +150,22 @@ public class Board {
 				
 			}
 		}
+		// if tiles were moved, add a new tile ot the game board
 		if (moved) {
 			this.addTile();
 		}
 		return moved;
 	}
 	
+	/**
+	 * Moves the game board tiles right if possible, combines tiles if applicable
+	 * @return boolean- true if a move was able to be made and false if a move was not able
+	 * to be made due to a lack of combinations able to be made or a lack of tiles
+	 */
 	private boolean moveRight() {
 		boolean moved = false;
 		for (int ii = 0; ii < this.boardY; ii++){
-			// whether or no the tile before this was merged(to prevent excess merging)
+			// whether or not the tile before this was merged(to prevent excess merging)
 			boolean combined = false;
 			for (int jj = this.boardX - 2; jj >= 0; jj--){
 				// empty space
@@ -173,12 +218,18 @@ public class Board {
 				
 			}
 		}
+		// if a move was made, add a new tile to the game board
 		if (moved) {
 			this.addTile();
 		}
 		return moved;
 	}
 	
+	/**
+	 * Moves the game board tiles up where possible, combining tiles if applicable
+	 * @return boolean - true if a move was able to be made and false if a move was
+	 * unable to be made due to a lack of combinations able to be made or a lack of tiles
+	 */
 	private boolean moveUp() {
 		boolean moved = false;
 		for (int ii = 0; ii < this.boardX; ii++){
@@ -235,12 +286,18 @@ public class Board {
 				
 			}
 		}
+		// if a move was made, add a new tile to the game board
 		if (moved) {
 			this.addTile();
 		}
 		return moved;
 	}
 	
+	/**
+	 * Moves the game board tiles down where possible, combining tiles if applicable
+	 * @return boolean - true if a move was able to be made and false if a move was
+	 * unable to be made due to a lack of combinations able to be made or a lack of tiles
+	 */
 	private boolean moveDown() {
 		boolean moved = false;
 		for (int ii = 0; ii < this.boardX; ii++){
@@ -297,22 +354,29 @@ public class Board {
 				
 			}
 		}
+		// if a move was made, add a new tile to the game board
 		if (moved) {
 			this.addTile();
 		}
 		return moved;
 	}
 
+	/**
+	 * Adds a tile (2 or 4) to the game board at a random location, has a lower probability of
+	 * adding a 4 tile as opposed to a 2 tile
+	 */
 	public void addTile(){
-		int x = (int) Math.floor(Math.random() * (this.boardX));
-		int y = (int) Math.floor(Math.random() * (this.boardY));
+		int x = (int) Math.floor(random.nextDouble() * (this.boardX));
+		int y = (int) Math.floor(random.nextDouble() * (this.boardY));
 
+		// finding an empty space on the game baord
 		while(this.board.get(y).get(x) != null){
-			x = (int) Math.floor(Math.random() * (this.boardX));
-			y = (int) Math.floor(Math.random() * (this.boardY));
+			x = (int) Math.floor(random.nextDouble() * (this.boardX));
+			y = (int) Math.floor(random.nextDouble() * (this.boardY));
 		}
 
-		double chanceOf4 = Math.random();
+		// determines whether a 2 tile or a 4 tile is added, lower chance of adding a 4 tile
+		double chanceOf4 = random.nextDouble();
 		if (chanceOf4 >= 0.9){
 			this.board.get(y).set(x, new Tile(4, theme));
 		} else {
@@ -323,32 +387,58 @@ public class Board {
 
 	}
 
+	/**
+	 * Retrieves the game score
+	 * @return int representing the game score
+	 */
 	public int getScore(){
 		return this.score;
 	}
 
+	/**
+	 * Retrieves the highest tile
+	 * @return int representing the value of the highest tile
+	 */
 	public int getHighest(){
 		return this.highest;
 	}
 
+	/**
+	 * Retrieves whether the board is full
+	 * @return boolean indicating if the baord is full - true if full false if not
+	 */
 	public boolean isFull(){
 		return this.tileNum == 16;
 	}
 
-	// returns the "theme" of the board, default is "basic"
+	/**
+	 * Retrieves the current theme of the board
+	 * @return Theme - the theme of the board
+	 */
 	public Theme getTheme(){
 		return this.theme;
 	}
 
+	/**
+	 * Sets the theme of the board to the new Theme object
+     * @param newTheme - a Theme object indicating how the color and design is
+	 * intended to look
+     */
 	public void setTheme(Theme newTheme) {
 		theme = newTheme;
 		for(ArrayList<Tile> row: board) {
 			for(Tile tile: row) {
+				// changes the theme of the tile for coloring purposes, all tiles currently
+				// populating the board should have the same theme
 				if(tile != null) tile.setTheme(newTheme);
 			}
 		}
 	}
 
+	/**
+	 * Creates a string representation of the game board
+	 * @return String representing the game board
+	 */
 	public String toString(){
 		String out = "┌" + "----".repeat(this.boardX - 1) + "---┐";
 		for (int ii = 0; ii < this.boardY; ii++){
@@ -368,4 +458,7 @@ public class Board {
 		return out;
 	}
 	
+	public void setRandomSeed(long seed) {
+		random.setSeed(seed);
+	}
 }
