@@ -2,3 +2,13 @@
 
 ## Issue Boards:
 - https://github.com/users/nosborne159/projects/1/views/1
+
+## Overview:
+This program is a replica game of 2048. It has the same basic functionality: has a 4 X 4 game board with tiles that populate the board, starting with two tiles, where each tile has a value displayed being a power of 2, in which the user can move all the tiles in an indicated direction using the W (up), A (left), S (down), D (right) keys. The beginning tiles are randomly populated with the displayed value of 2 or 4 and as tiles are moved by the user if two tiles are moved adjacent to eachother with the same displayed value they will combine into one tile with a displayed value of double the intitial value. The goal of this game is to reach a tile with the displayed value of 2048 in which the game ends, but each time a move is made a new tile appears on the board with either a value 2 or 4 which could cause the board to fill up with no moves able to be made in which the game ends aswell.
+
+## How To Run
+While in the CS335-Final-Project folder, you can run the GUI display of the 2048 game simply by running the App.java java code with the appropriate vmArgs in the launch.json file. It should take the format of:
+
+"vmArgs": "--module-path PathToJavaFXFolder/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml,javafx.media"
+
+where PathToJavaFXFolder will be replaced with the path to the javafx-sdk-23.0.1 file on your current computer. Once it is running a window will pop up displaying the 2048 game featuring the board in the middle and other features at the top of the window. Moves can be made simply by using the  W (up), A (left), S (down), and D (right) keys. The "theme" of the game, the colors used as well as the design in some cases, can be changed by clicking the dropdown on the top left of the screen with the default label of "light" indicating the current theme. The current score is displayed at the top of the screen and upsates as the game is played with movements and once the game has ended the leaderboard will display with a text field for the user to input a name to be associated with their score to be placed into the leaderboard. Only the top 10 scores will be displayed in the leaderboard which can also be accessed during gameplay by clicking the "Leaderboard" button and closed using the "close" button. Along with this, there is background music as well as sounds associated with movements that can be volume ocntrolled using the "Volume" slider. To exit the game/window simply close the window as you would any other window on your computer, it will end the program 
