@@ -65,6 +65,7 @@ public class App extends Application {
     }
     
     /**
+     * Initializes the GUI stage and scenes
      * @param stage - a Stage in which the GUI is constructed
      */
     @Override
@@ -98,6 +99,7 @@ public class App extends Application {
     }
 
     /**
+     * Starts and handles key events (such as WASD movements and interaction with the GUI)
      * @param root - a Group whose contents are the scenes accessed by the GUI
      * @param lb - a Leaderboard that tracks the high scores of previous games
      */
@@ -139,6 +141,7 @@ public class App extends Application {
     }
 
     /**
+     * Initiates each of the scenes in the stage
      * @param root - a Group whose contents are the scenes accessed by the GUI
      * @param lb - a Leaderboard that tracks the high scores of previous games
      */
@@ -155,6 +158,7 @@ public class App extends Application {
     }
 
     /**
+     * Initiates the instruction text for how to move the tiles
      * @param root - a Group whose contents are the scenes accessed by the GUI
      */
     private void showControls(Group root){
@@ -171,6 +175,7 @@ public class App extends Application {
     }
 
     /**
+     * Initiates the current score text for the GUI
      * @param root - a Group whose contents are the scenes accessed by the GUI
      */
     private void showScore(Group root) {
@@ -185,6 +190,9 @@ public class App extends Application {
         root.getChildren().add(scoreText);
     }
 
+    /**
+     * Updates the score text
+     */
     private void updateScore() {
         // Bolds final message when game is over
         if (controller.isOver()) {
@@ -196,6 +204,7 @@ public class App extends Application {
     }
 
     /**
+     * Initiates the dropdown styled menu for picking the theme
      * @param root - a Group whose contents are the scenes accessed by the GUI
      * @param lb - a Leaderboard that tracks the high scores of previous games
      */
@@ -227,6 +236,7 @@ public class App extends Application {
     }
 
     /**
+     * Initiates the volume slider
      * @param root - a Group whose contents are the scenes accessed by the GUI
      */
     private void showVolumeControl(Group root) {
@@ -265,6 +275,7 @@ public class App extends Application {
     }
 
     /**
+     * Initiates the title text
      * @param root - a Group whose contents are the scenes accessed by the GUI
      */
     private void showTitle(Group root) {
@@ -279,6 +290,7 @@ public class App extends Application {
     }
 
     /**
+     * Initiates the button to view the Leaderboard midgame
      * @param root - a Group whose contents are the scenes accessed by the GUI
      * @param lb - a Leaderboard that tracks the high scores of previous games
      */
@@ -296,6 +308,8 @@ public class App extends Application {
     }
 
     /**
+     * Initiates the Leaderboard submission text field and the button to
+     * restart the game after the end of the game
      * @param root - a Group whose contents are the scenes accessed by the GUI
      * @param lb - a Leaderboard that tracks the high scores of previous games
      * @param lbText - a Text scene that will display the information in lb
@@ -341,6 +355,9 @@ public class App extends Application {
     }
 
     /**
+     * Shows the Leaderboard text against an overlay covering the game board,
+     * both accessible by button midgame and automatically at the end of the
+     * game with the option to be put on the leaderboard
      * @param root - a Group whose contents are the scenes accessed by the GUI
      * @param lb - a Leaderboard that tracks the high scores of previous games
      */
@@ -394,6 +411,7 @@ public class App extends Application {
     }
 
     /**
+     * Initiates the game board and its tiles
      * @param root - a Group whose contents are the scenes accessed by the GUI
      * @implNote creates an empty board of tiles and hashes each StackPane used as a tile to the gridMap
      */
@@ -432,6 +450,7 @@ public class App extends Application {
     
 
     /**
+     * Updates the positions of the tiles
      * @param boardList - a 2D-ArrayList of Tiles in which the tiles for the game are stored
      */
     public void updateTiles(ArrayList<ArrayList<Tile>> boardList){
@@ -485,6 +504,8 @@ public class App extends Application {
     }
 
     /**
+     * Sets the color of a single tile on the game board based on the
+     * set theme
      * @param node - a Node from the GridPane representing a Tile
      * @param tmpTile - a temporary Tile used to change the color of node
      */
