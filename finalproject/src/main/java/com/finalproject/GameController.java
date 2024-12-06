@@ -88,8 +88,8 @@ public class GameController {
     }
 
     /**
-     * 
-     * @return 
+     * Retrieves whether the tiles can be moved in any direction
+     * @return boolean - true if a move was made and false if not
      */
     private boolean tilesCanMove(){
         boolean canMove = false;
@@ -130,11 +130,22 @@ public class GameController {
         return canMove;
     }
 
+    /**
+     * Looks in an indicated direciton to see if the current tile can combine
+     * @param y the offset in the y direction
+     * @param x the offset in the x direction
+     * @param ii current index y
+     * @param jj current index x
+     * @return 
+     */
     private boolean checkNextTo(int y, int x, int ii, int jj){
         return this.board.getBoard().get(ii + y).get(jj + x).combine(this.board.getBoard().get(ii).get(jj)) != null || this.board.getBoard().get(ii + y).get(jj + x) == null;
     }
 
-    // Returns the "theme" of the game (the range of colors chosen).
+    /**
+     * Retrieves the theme of the game board
+     * @return Theme - the current theme object used
+     */
     public Theme getTheme(){
         return this.board.getTheme();
     }
@@ -144,3 +155,4 @@ public class GameController {
     }
 
 }
+
