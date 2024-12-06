@@ -19,13 +19,13 @@ import java.util.ArrayList;
 
 public class Theme {
 
-    String name;
-    Color start;
-    Color end;
-    Color background;
-    Color secondary;
-    Color text;
-    ImageView image;
+    private String name;
+    private Color start;
+    private Color end;
+    private Color background;
+    private Color secondary;
+    private Color text;
+    private ImageView image;
 
     ArrayList<Color> tileColors;
     

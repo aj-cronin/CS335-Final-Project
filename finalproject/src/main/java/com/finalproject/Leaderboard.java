@@ -19,9 +19,9 @@ import java.io.FileNotFoundException;
 
 public class Leaderboard {
     
-    ArrayList<HashMap<String,Integer>> players;
-    int size;
-    String filename;
+    private ArrayList<HashMap<String,Integer>> players;
+    private int size;
+    private String filename;
 
     /**
      * @param filename - a String that is the name of the leaderboard file being used.
