@@ -1,11 +1,3 @@
-/*
- * Commented out because VSCode hates JavaFX and JUnit together :)
- */
-
-
-
-/*
-
 package com.finalproject;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -393,5 +385,3 @@ class GameTests {
 		assertEquals(board.getBoard(), emptyBoard);
 	}
 }
-
-	  */
